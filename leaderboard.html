@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النادي الهندسي | لوحة الصدارة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* التنسيقات الموحدة */
+        :root {
+            --primary-dark-blue: #0A2F6B; 
+            --accent-blue: #3498DB;    
+            --light-bg: #F0F2F5;       
+            --main-bg: #FFFFFF;        
+            --main-text: #333333;      
+        }
+        html.dark {
+            --light-bg: #1A202C;       
+            --main-bg: #2D3748;        
+            --main-text: #E2E8F0;      
+            --primary-dark-blue: #90CDF4; 
+            --accent-blue: #90CDF4;    
+        }
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background-color: var(--light-bg); 
+            color: var(--main-text); 
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-bg { background-color: #0A2F6B; }
+        h1, h2, h3 { color: var(--primary-dark-blue); }
+        .bg-card { background-color: var(--main-bg); color: var(--main-text); }
+        .icon-shadow { filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
+        
+        .gold { background-color: #FFD700; color: #333; }
+        .silver { background-color: #C0C0C0; color: #333; }
+        .bronze { background-color: #CD7F32; color: white; }
+        .primary-row { background-color: var(--accent-blue); color: white; }
+    </style>
+</head>
+<body class="text-main">
+    
+    <nav class="nav-bg shadow-lg sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <img src="images/club-logo.png" alt="شعار النادي الهندسي" class="h-10 w-auto ml-3 icon-shadow"> 
+                    <span class="text-2xl font-bold text-white">ENG CLUB</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-4 space-x-reverse text-sm font-medium">
+                    <a href="index.html" class="text-white hover:text-accent-blue px-3 py-2">الرئيسية</a>
+                    <a href="news.html" class="text-white hover:text-accent-blue px-3 py-2">أخبار النادي</a>
+                    <a href="about.html" class="text-white hover:text-accent-blue px-3 py-2">فريقنا (من نحن)</a>
+                    <a href="events.html" class="text-white hover:text-accent-blue px-3 py-2">الدورات والفعاليات</a> 
+                    <a href="leaderboard.html" class="text-white hover:text-accent-blue px-3 py-2 border-b-2 border-accent-blue">لوحة الصدارة</a>
+                    <a href="contact.html" class="text-white hover:text-accent-blue px-3 py-2">تواصل معنا</a>
+
+                    <button id="theme-toggle-desktop" class="p-2 rounded-full text-white hover:bg-accent-blue/20 transition duration-300">
+                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+
+                    <a href="register.html" class="bg-accent-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-600 shadow-lg">انضم إلينا</a>
+                    <a href="login.html" class="text-white hover:text-accent-blue px-3 py-2">تسجيل الدخول</a>
+                </div>
+
+                <div class="flex items-center md:hidden">
+                    <button id="theme-toggle-mobile" class="p-2 rounded-full text-white hover:bg-accent-blue/20 transition duration-300 ml-2">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+                    <button id="mobile-menu-button" type="button" class="p-2 rounded-md text-white hover:bg-accent-blue/20 focus:outline-none focus:ring-2 focus:ring-white">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-right nav-bg">
+                <a href="index.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
+                <a href="news.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">أخبار النادي</a>
+                <a href="about.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">فريقنا (من نحن)</a>
+                <a href="events.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الدورات والفعاليات</a> 
+                <a href="leaderboard.html" class="bg-accent-blue text-white block px-3 py-2 rounded-md text-base font-medium">لوحة الصدارة</a>
+                <a href="contact.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تواصل معنا</a>
+
+                <hr class="border-t border-white/20 my-2">
+                
+                <a href="register.html" class="bg-white text-primary-dark-blue block px-3 py-2 rounded-md text-base font-medium mt-2">انضم إلينا</a>
+                <a href="login.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تسجيل الدخول</a>
+            </div>
+        </div>
+    </nav>
+    <main class="py-12 px-4">
+        <div class="max-w-5xl mx-auto">
+            <header class="text-center mb-12">
+                <h1 class="text-5xl font-extrabold mb-3">لوحة صدارة النقاط 🏆</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400">تصنيف الأعضاء النشطين حسب النقاط المكتسبة من المشاركة في الفعاليات واللجان.</p>
+                <div class="bg-card inline-block p-3 rounded-xl shadow-lg mt-4 border border-gray-100 dark:border-gray-700">
+                    <span class="text-primary-dark-blue font-bold">نقاطك الحالية (افتراضي): 450 نقطة</span>
+                </div>
+            </header>
+
+            <section class="flex justify-center items-end mb-12 gap-8 text-center">
+                
+                <div class="flex flex-col items-center p-4 silver rounded-t-xl shadow-xl w-1/3 order-2 md:order-1 h-36 justify-end">
+                    <div class="text-5xl mb-2">🥈</div>
+                    <p class="font-extrabold text-xl mb-1">480 نقطة</p>
+                    <p class="font-semibold text-lg">سارة الحربي</p>
+                    <p class="text-xs text-gray-700">هندسة كهربائية</p>
+                </div>
+
+                <div class="flex flex-col items-center p-6 gold rounded-t-xl shadow-2xl w-1/3 order-1 md:order-2 h-48 justify-end transform -translate-y-3">
+                    <div class="text-7xl mb-2">🥇</div>
+                    <p class="font-extrabold text-2xl mb-1">510 نقطة</p>
+                    <p class="font-bold text-xl">أحمد الشمري</p>
+                    <p class="text-sm text-gray-700">هندسة مدنية</p>
+                </div>
+
+                <div class="flex flex-col items-center p-4 bronze rounded-t-xl shadow-xl w-1/3 order-3 h-28 justify-end">
+                    <div class="text-4xl mb-2">🥉</div>
+                    <p class="font-extrabold text-lg mb-1">450 نقطة</p>
+                    <p class="font-semibold text-md text-white">خالد العتيبي</p>
+                    <p class="text-xs text-gray-200">هندسة ميكانيكية</p>
+                </div>
+            </section>
+
+            <div class="bg-card rounded-xl shadow-xl overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-primary-dark-blue/90 text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider">الترتيب</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider">الاسم</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider">التخصص</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider">النقاط</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        
+                        <tr class="hover:bg-light-bg/50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-dark-blue">4</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">مريم الدوسري</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">هندسة صناعية</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold">420</td>
+                        </tr>
+                        <tr class="hover:bg-light-bg/50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-dark-blue">5</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">فهد القحطاني</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">هندسة كهربائية</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold">390</td>
+                        </tr>
+                        <tr class="hover:bg-light-bg/50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-dark-blue">6</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">نورة العبدالله</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">هندسة مدنية</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold">350</td>
+                        </tr>
+                        <tr class="hover:bg-light-bg/50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-dark-blue">7</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">عبدالله الزهراني</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">هندسة ميكانيكية</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold">310</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-12 p-6 bg-card rounded-xl shadow-lg border border-accent-blue/50">
+                <h3 class="text-2xl font-bold mb-3 text-accent-blue">هل تريد الانضمام إلى المنافسة؟</h3>
+                <p class="text-main mb-4">كل مشاركة في فعالياتنا تكسبك نقاطاً تصعد بك إلى الصدارة. سجل حسابك الآن لبدء جمع النقاط.</p>
+                <a href="register.html" class="inline-block bg-primary-dark-blue text-white px-8 py-3 rounded-full font-bold hover:bg-primary-dark-blue/80 transition duration-300 shadow-md">
+                    سجل حسابك 📝
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contact" class="nav-bg py-8 mt-16 border-t border-accent-blue/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-white text-md font-semibold mb-2">النادي الهندسي | ENGINEERING CLUB</p>
+            <p class="text-xs text-gray-500 mt-4">جميع الحقوق محفوظة لكلية الهندسة، جامعة المجمعة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // كود لتغيير الوضع الداكن/الفاتح وتفعيل قائمة الجوال 
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        const toggleTheme = () => {
+            if (htmlElement.classList.contains('light')) {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+            }
+        };
+
+        if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+        if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        const button = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if(button && menu) {
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>
