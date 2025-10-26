@@ -13,7 +13,7 @@
         /* ==================================== */
         :root {
             --primary-dark-blue: #0A2F6B; 
-            --accent-blue: #3498DB;    
+            --accent-blue: #3498DB;  
             --light-bg: #F0F2F5;       
             --main-bg: #FFFFFF;        
             --main-text: #333333;      
@@ -23,7 +23,7 @@
             --main-bg: #2D3748;        
             --main-text: #E2E8F0;      
             --primary-dark-blue: #90CDF4; 
-            --accent-blue: #90CDF4;    
+            --accent-blue: #90CDF4;   
         }
         body { 
             font-family: 'Tajawal', sans-serif; 
@@ -31,7 +31,6 @@
             color: var(--main-text); 
             transition: background-color 0.3s, color 0.3s;
         }
-        .nav-bg { background-color: #0A2F6B; }
         h1, h2, h3 { color: var(--primary-dark-blue); }
         .bg-card { background-color: var(--main-bg); color: var(--main-text); }
         .icon-shadow { filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
@@ -55,39 +54,51 @@
             background-color: var(--main-bg); 
             color: var(--primary-dark-blue);
         }
+        /* تعديلات ألوان شريط التنقل الجديدة */
+        .nav-link {
+            color: var(--primary-dark-blue);
+        }
+        html.dark .nav-link {
+            color: var(--main-text);
+        }
+        /* ✅ التعديل الجديد: تحديد لون شريط التنقل في الوضع الداكن ليعود إلى الأزرق الداكن الثابت */
+        html.dark .nav-dark-mode-bg {
+            background-color: #0A2F6B; /* اللون الأزرق الداكن الثابت */
+            border-bottom-color: transparent;
+        }
     </style>
 </head>
 <body class="text-main">
     
-    <nav class="nav-bg shadow-lg sticky top-0 z-20">
+    <nav class="bg-white nav-dark-mode-bg shadow-lg sticky top-0 z-20 border-b border-gray-200 dark:border-transparent">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex-shrink-0 flex items-center">
                     <img src="images/club-logo.png" alt="شعار النادي الهندسي" class="h-10 w-auto ml-3 icon-shadow"> 
-                    <span class="text-2xl font-bold text-white">ENG CLUB</span>
+                    <span class="text-2xl font-bold text-primary-dark-blue dark:text-white">ENG CLUB</span>
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-4 space-x-reverse text-sm font-medium">
-                    <a href="index.html" class="text-white hover:text-accent-blue px-3 py-2 border-b-2 border-accent-blue">الرئيسية</a>
-                    <a href="news.html" class="text-white hover:text-accent-blue px-3 py-2">أخبار النادي</a>
-                    <a href="about.html" class="text-white hover:text-accent-blue px-3 py-2">فريقنا (من نحن)</a>
-                    <a href="events.html" class="text-white hover:text-accent-blue px-3 py-2">الدورات والفعاليات</a> 
-                    <a href="leaderboard.html" class="text-white hover:text-accent-blue px-3 py-2">لوحة الصدارة</a>
-                    <a href="contact.html" class="text-white hover:text-accent-blue px-3 py-2">تواصل معنا</a>
+                    <a href="index.html" class="nav-link hover:text-accent-blue dark:text-white px-3 py-2 border-b-2 border-accent-blue">الرئيسية</a>
+                    <a href="news.html" class="nav-link hover:text-accent-blue dark:text-white px-3 py-2">أخبار النادي</a>
+                    <a href="about.html" class="nav-link hover:text-accent-blue dark:text-white px-3 py-2">فريقنا (من نحن)</a>
+                    <a href="events.html" class="nav-link hover:text-accent-blue dark:text-white px-3 py-2">الدورات والفعاليات</a> 
+                    <a href="leaderboard.html" class="nav-link hover:text-accent-blue dark:text-white px-3 py-2">لوحة الصدارة</a>
+                    <a href="contact.html" class="nav-link hover:text-accent-blue dark:text-white px-3 py-2">تواصل معنا</a>
 
-                    <button id="theme-toggle-desktop" class="p-2 rounded-full text-white hover:bg-accent-blue/20 transition duration-300">
+                    <button id="theme-toggle-desktop" class="p-2 rounded-full text-primary-dark-blue dark:text-white hover:bg-accent-blue/20 transition duration-300">
                          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </button>
 
                     <a href="register.html" class="bg-accent-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-600 shadow-lg">انضم إلينا</a>
-                    <a href="login.html" class="text-white hover:text-accent-blue px-3 py-2">تسجيل الدخول</a>
+                    <a href="login.html" class="nav-link hover:text-accent-blue dark:text-white px-3 py-2">تسجيل الدخول</a>
                 </div>
 
                 <div class="flex items-center md:hidden">
-                    <button id="theme-toggle-mobile" class="p-2 rounded-full text-white hover:bg-accent-blue/20 transition duration-300 ml-2">
+                    <button id="theme-toggle-mobile" class="p-2 rounded-full text-primary-dark-blue dark:text-white hover:bg-accent-blue/20 transition duration-300 ml-2">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </button>
-                    <button id="mobile-menu-button" type="button" class="p-2 rounded-md text-white hover:bg-accent-blue/20 focus:outline-none focus:ring-2 focus:ring-white">
+                    <button id="mobile-menu-button" type="button" class="p-2 rounded-md text-primary-dark-blue dark:text-white hover:bg-accent-blue/20 focus:outline-none focus:ring-2 focus:ring-primary-dark-blue/50">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -97,18 +108,18 @@
         </div>
 
         <div class="hidden md:hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-right nav-bg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-right bg-white nav-dark-mode-bg border-t border-gray-200 dark:border-gray-700">
                 <a href="index.html" class="bg-accent-blue text-white block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
-                <a href="news.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">أخبار النادي</a>
-                <a href="about.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">فريقنا (من نحن)</a>
-                <a href="events.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الدورات والفعاليات</a> 
-                <a href="leaderboard.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">لوحة الصدارة</a>
-                <a href="contact.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تواصل معنا</a>
+                <a href="news.html" class="nav-link hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">أخبار النادي</a>
+                <a href="about.html" class="nav-link hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">فريقنا (من نحن)</a>
+                <a href="events.html" class="nav-link hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الدورات والفعاليات</a> 
+                <a href="leaderboard.html" class="nav-link hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">لوحة الصدارة</a>
+                <a href="contact.html" class="nav-link hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تواصل معنا</a>
 
-                <hr class="border-t border-white/20 my-2">
+                <hr class="border-t border-gray-200 dark:border-white/20 my-2">
                 
-                <a href="register.html" class="bg-white text-primary-dark-blue block px-3 py-2 rounded-md text-base font-medium mt-2">انضم إلينا</a>
-                <a href="login.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تسجيل الدخول</a>
+                <a href="register.html" class="bg-primary-dark-blue text-white block px-3 py-2 rounded-md text-base font-medium mt-2">انضم إلينا</a>
+                <a href="login.html" class="nav-link hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تسجيل الدخول</a>
             </div>
         </div>
     </nav>
@@ -220,13 +231,16 @@
 
     </main>
 
-    <footer id="contact" class="nav-bg py-8 mt-16 border-t border-accent-blue/50">
+    <footer id="contact" class="bg-primary-dark-blue py-8 mt-16 border-t border-accent-blue/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-white text-md font-semibold mb-2">النادي الهندسي | ENGINEERING CLUB</p>
-            <p class="text-xs text-gray-500 mt-4">جميع الحقوق محفوظة لكلية الهندسة، جامعة المجمعة.</p>
+            <p class="text-xs text-gray-400 mt-4">جميع الحقوق محفوظة لكلية الهندسة، جامعة المجمعة.</p>
             <div class="mt-4 flex justify-center space-x-4 space-x-reverse">
                 <a href="https://twitter.com/ieng_club" target="_blank" class="social-link p-2 rounded-full text-white hover:opacity-80 transition">
                     <p class="text-md font-extrabold">X</p> 
+                </a>
+                <a href="https://www.tiktok.com/@engineering.club.mu" target="_blank" class="social-link p-2 rounded-full text-white hover:opacity-80 transition">
+                    <p class="text-md font-extrabold">TikTok</p>
                 </a>
             </div>
         </div>
@@ -238,15 +252,23 @@
         const themeToggleMobile = document.getElementById('theme-toggle-mobile');
         const htmlElement = document.documentElement;
 
-        // وظيفة تبديل الوضع
+        // ✅ [التحميل]: تمكين التسلسل في الصفحة الرئيسية
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme);
+        }
+
+        // وظيفة تبديل الوضع (معدلة للحفظ وضمان التسلسل لجميع الصفحات)
         const toggleTheme = () => {
-            if (htmlElement.classList.contains('light')) {
-                htmlElement.classList.remove('light');
-                htmlElement.classList.add('dark');
-            } else {
-                htmlElement.classList.remove('dark');
-                htmlElement.classList.add('light');
-            }
+            let currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+            let newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            htmlElement.classList.remove(currentTheme);
+            htmlElement.classList.add(newTheme);
+            
+            // 💾 [الحفظ]: حفظ النمط الجديد لجعله ثابتاً (Persistent)
+            localStorage.setItem('theme', newTheme); 
         };
 
         if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);

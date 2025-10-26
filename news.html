@@ -11,17 +11,17 @@
         /* التنسيقات الموحدة */
         :root {
             --primary-dark-blue: #0A2F6B; 
-            --accent-blue: #3498DB;    
-            --light-bg: #F0F2F5;       
+            --accent-blue: #06B6D4; /* لون التمييز الفاتح (سماوي) */    
+            --light-bg: #F0F2F5;        
             --main-bg: #FFFFFF;        
             --main-text: #333333;      
         }
         html.dark {
-            --light-bg: #1A202C;       
+            --light-bg: #1A202C;        
             --main-bg: #2D3748;        
             --main-text: #E2E8F0;      
             --primary-dark-blue: #90CDF4; 
-            --accent-blue: #90CDF4;    
+            --accent-blue: #90CDF4; /* لون التمييز الفاتح في الوضع الداكن */   
         }
         body { 
             font-family: 'Tajawal', sans-serif; 
@@ -29,7 +29,31 @@
             color: var(--main-text); 
             transition: background-color 0.3s, color 0.3s;
         }
-        .nav-bg { background-color: #0A2F6B; }
+
+        /* [تعديل رئيسي]: شريط التنقل (يتغير لونه حسب النمط) */
+        .nav-bg { 
+            background-color: var(--main-bg); 
+            color: var(--main-text); 
+        }
+        html.dark .nav-bg { 
+            background-color: #0A2F6B; /* كحلي ثابت في الوضع الداكن */
+            color: #FFFFFF; 
+        }
+
+        /* [تعديل رئيسي]: تنسيقات الروابط في شريط التنقل */
+        .nav-link {
+            color: var(--main-text); 
+        }
+        .nav-link:hover {
+            color: var(--accent-blue);
+        }
+        html.dark .nav-link {
+            color: #FFFFFF; 
+        }
+        html.dark .nav-link:hover {
+            color: var(--accent-blue);
+        }
+        /* بقية التنسيقات */
         h1, h2, h3 { color: var(--primary-dark-blue); }
         .bg-card { background-color: var(--main-bg); color: var(--main-text); }
         .icon-shadow { filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
@@ -42,30 +66,30 @@
             <div class="flex justify-between h-16">
                 <div class="flex-shrink-0 flex items-center">
                     <img src="images/club-logo.png" alt="شعار النادي الهندسي" class="h-10 w-auto ml-3 icon-shadow"> 
-                    <span class="text-2xl font-bold text-white">ENG CLUB</span>
+                    <span class="text-2xl font-bold">ENG CLUB</span>
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-4 space-x-reverse text-sm font-medium">
-                    <a href="index.html" class="text-white hover:text-accent-blue px-3 py-2">الرئيسية</a>
-                    <a href="news.html" class="text-white hover:text-accent-blue px-3 py-2 border-b-2 border-accent-blue">أخبار النادي</a>
-                    <a href="about.html" class="text-white hover:text-accent-blue px-3 py-2">فريقنا (من نحن)</a>
-                    <a href="events.html" class="text-white hover:text-accent-blue px-3 py-2">الدورات والفعاليات</a> 
-                    <a href="leaderboard.html" class="text-white hover:text-accent-blue px-3 py-2">لوحة الصدارة</a>
-                    <a href="contact.html" class="text-white hover:text-accent-blue px-3 py-2">تواصل معنا</a>
+                    <a href="index.html" class="nav-link px-3 py-2">الرئيسية</a>
+                    <a href="news.html" class="nav-link px-3 py-2 border-b-2" style="border-bottom-color: var(--accent-blue);">أخبار النادي</a>
+                    <a href="about.html" class="nav-link px-3 py-2">فريقنا (من نحن)</a>
+                    <a href="events.html" class="nav-link px-3 py-2">الدورات والفعاليات</a> 
+                    <a href="leaderboard.html" class="nav-link px-3 py-2">لوحة الصدارة</a>
+                    <a href="contact.html" class="nav-link px-3 py-2">تواصل معنا</a>
 
-                    <button id="theme-toggle-desktop" class="p-2 rounded-full text-white hover:bg-accent-blue/20 transition duration-300">
-                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <button id="theme-toggle-desktop" class="p-2 rounded-full hover:bg-accent-blue/20 transition duration-300" style="color: var(--main-text);">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </button>
 
-                    <a href="register.html" class="bg-accent-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-600 shadow-lg">انضم إلينا</a>
-                    <a href="login.html" class="text-white hover:text-accent-blue px-3 py-2">تسجيل الدخول</a>
+                    <a href="register.html" class="px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 shadow-lg" style="background-color: var(--accent-blue); color: var(--primary-dark-blue);">انضم إلينا</a>
+                    <a href="login.html" class="nav-link px-3 py-2">تسجيل الدخول</a>
                 </div>
 
                 <div class="flex items-center md:hidden">
-                    <button id="theme-toggle-mobile" class="p-2 rounded-full text-white hover:bg-accent-blue/20 transition duration-300 ml-2">
+                    <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-accent-blue/20 transition duration-300 ml-2" style="color: var(--main-text);">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </button>
-                    <button id="mobile-menu-button" type="button" class="p-2 rounded-md text-white hover:bg-accent-blue/20 focus:outline-none focus:ring-2 focus:ring-white">
+                    <button id="mobile-menu-button" type="button" class="p-2 rounded-md hover:bg-accent-blue/20 focus:outline-none focus:ring-2" style="color: var(--main-text); focus-ring-color: var(--accent-blue);">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -75,9 +99,9 @@
         </div>
 
         <div class="hidden md:hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-right nav-bg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-right" style="background-color: #0A2F6B;">
                 <a href="index.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
-                <a href="news.html" class="bg-accent-blue text-white block px-3 py-2 rounded-md text-base font-medium">أخبار النادي</a>
+                <a href="news.html" class="text-white block px-3 py-2 rounded-md text-base font-medium" style="background-color: var(--accent-blue);">أخبار النادي</a>
                 <a href="about.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">فريقنا (من نحن)</a>
                 <a href="events.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الدورات والفعاليات</a> 
                 <a href="leaderboard.html" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">لوحة الصدارة</a>
@@ -93,48 +117,46 @@
     <main class="py-12 px-4">
         <div class="max-w-7xl mx-auto">
             <header class="text-center mb-12">
-                <h1 class="text-5xl font-extrabold mb-3">أخبار النادي</h1>
+                <h1 class="text-5xl font-extrabold mb-3" style="color: var(--primary-dark-blue);">أخبار النادي</h1>
                 <p class="text-lg text-gray-600 dark:text-gray-400">تابع أحدث إعلاناتنا، فعالياتنا، وإنجازاتنا.</p>
             </header>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-2 space-y-8">
                     
-                    <div class="bg-card rounded-xl shadow-2xl overflow-hidden border-t-4 border-accent-blue">
+                    <div class="bg-card rounded-xl shadow-2xl overflow-hidden border-t-4" style="border-top-color: var(--accent-blue);">
                         
                         <div class="p-6 md:p-8">
-                            <span class="text-sm font-semibold text-accent-blue mb-2 block">فعالية كبرى | 22 أكتوبر 2025</span>
-                            <h2 class="text-3xl font-bold mb-4 text-primary-dark-blue">انطلاق معسكر "صناع المستقبل" لمهارات البرمجة الهندسية</h2>
-                            <p class="text-main mb-6 leading-relaxed">أعلن النادي عن بدء التسجيل في معسكر تدريبي مكثف يهدف إلى صقل مهارات الطلاب في لغات البرمجة المطبقة في الهندسة (مثل بايثون لنمذجة البيانات)، وذلك استعداداً لسوق العمل الذي يعتمد على الأتمتة والذكاء الاصطناعي.</p>
-                            <a href="#" class="inline-block bg-primary-dark-blue text-white px-6 py-2 rounded-full font-medium hover:bg-primary-dark-blue/80 transition duration-300">
+                            <span class="text-sm font-semibold mb-2 block" style="color: var(--accent-blue);">فعالية كبرى | 22 أكتوبر 2025</span>
+                            <h2 class="text-3xl font-bold mb-4" style="color: var(--primary-dark-blue);">انطلاق معسكر "صناع المستقبل" لمهارات البرمجة الهندسية</h2>
+                            <p class="mb-6 leading-relaxed">أعلن النادي عن بدء التسجيل في معسكر تدريبي مكثف يهدف إلى صقل مهارات الطلاب في لغات البرمجة المطبقة في الهندسة (مثل بايثون لنمذجة البيانات)، وذلك استعداداً لسوق العمل الذي يعتمد على الأتمتة والذكاء الاصطناعي.</p>
+                            <a href="#" class="inline-block text-white px-6 py-2 rounded-full font-medium hover:opacity-80 transition duration-300" style="background-color: var(--primary-dark-blue);">
                                 تفاصيل التسجيل
                             </a>
                         </div>
                     </div>
 
-                    <h3 class="text-2xl font-bold mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">أخبار سابقة</h3>
+                    <h3 class="text-2xl font-bold mb-4 border-b pb-2 border-gray-200 dark:border-gray-700" style="color: var(--primary-dark-blue);">أخبار سابقة</h3>
                     
                     <div class="bg-card p-5 rounded-xl shadow-lg flex flex-col md:flex-row items-start space-x-4 space-x-reverse hover:shadow-xl transition duration-300">
                         <div class="flex-shrink-0 w-full md:w-32 h-20 overflow-hidden rounded-lg mb-4 md:mb-0">
-                            
-                        </div>
+                            </div>
                         <div class="flex-grow">
-                            <span class="text-xs font-semibold text-accent-blue mb-1 block">إعلان | 15 أكتوبر 2025</span>
-                            <h4 class="text-xl font-bold mb-2 text-primary-dark-blue">افتتاح باب الترشح للجنة العلاقات العامة</h4>
-                            <p class="text-sm text-gray-500 line-clamp-2">ندعو الطلاب الراغبين في تطوير مهارات التواصل وتنظيم الفعاليات لتقديم طلبات الترشح للجنة العلاقات العامة الجديدة.</p>
-                            <a href="#" class="text-sm text-accent-blue hover:underline mt-2 inline-block">اقرأ المزيد</a>
+                            <span class="text-xs font-semibold mb-1 block" style="color: var(--accent-blue);">إعلان | 15 أكتوبر 2025</span>
+                            <h4 class="text-xl font-bold mb-2" style="color: var(--primary-dark-blue);">افتتاح باب الترشح للجنة العلاقات العامة</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">ندعو الطلاب الراغبين في تطوير مهارات التواصل وتنظيم الفعاليات لتقديم طلبات الترشح للجنة العلاقات العامة الجديدة.</p>
+                            <a href="#" class="text-sm hover:underline mt-2 inline-block" style="color: var(--accent-blue);">اقرأ المزيد</a>
                         </div>
                     </div>
 
                     <div class="bg-card p-5 rounded-xl shadow-lg flex flex-col md:flex-row items-start space-x-4 space-x-reverse hover:shadow-xl transition duration-300">
                         <div class="flex-shrink-0 w-full md:w-32 h-20 overflow-hidden rounded-lg mb-4 md:mb-0">
-                            
-                        </div>
+                            </div>
                         <div class="flex-grow">
-                            <span class="text-xs font-semibold text-accent-blue mb-1 block">تقرير | 5 أكتوبر 2025</span>
-                            <h4 class="text-xl font-bold mb-2 text-primary-dark-blue">نجاح زيارة الطلاب لمشروع تحلية المياه</h4>
-                            <p class="text-sm text-gray-500 line-clamp-2">أثمرت الزيارة الميدانية الأخيرة عن إثراء معرفة الطلاب بالعمليات الهندسية الميكانيكية والكهربائية في محطات التحلية الكبرى.</p>
-                            <a href="#" class="text-sm text-accent-blue hover:underline mt-2 inline-block">اقرأ المزيد</a>
+                            <span class="text-xs font-semibold mb-1 block" style="color: var(--accent-blue);">تقرير | 5 أكتوبر 2025</span>
+                            <h4 class="text-xl font-bold mb-2" style="color: var(--primary-dark-blue);">نجاح زيارة الطلاب لمشروع تحلية المياه</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">أثمرت الزيارة الميدانية الأخيرة عن إثراء معرفة الطلاب بالعمليات الهندسية الميكانيكية والكهربائية في محطات التحلية الكبرى.</p>
+                            <a href="#" class="text-sm hover:underline mt-2 inline-block" style="color: var(--accent-blue);">اقرأ المزيد</a>
                         </div>
                     </div>
                 </div>
@@ -142,20 +164,20 @@
                 <div class="space-y-8">
                     
                     <div class="bg-card p-6 rounded-xl shadow-lg">
-                        <h3 class="text-xl font-bold mb-4 border-b pb-2">فئات الأخبار</h3>
+                        <h3 class="text-xl font-bold mb-4 border-b pb-2" style="color: var(--primary-dark-blue);">فئات الأخبار</h3>
                         <ul class="space-y-2 text-right">
-                            <li><a href="#" class="text-main hover:text-accent-blue transition">جميع الأخبار (8)</a></li>
-                            <li><a href="#" class="text-main hover:text-accent-blue transition">إعلانات الدورات (3)</a></li>
-                            <li><a href="#" class="text-main hover:text-accent-blue transition">فعاليات النادي (2)</a></li>
-                            <li><a href="#" class="text-main hover:text-accent-blue transition">إنجازات الطلاب (1)</a></li>
-                            <li><a href="#" class="text-main hover:text-accent-blue transition">الرحلات الميدانية (2)</a></li>
+                            <li><a href="#" class="hover:text-accent-blue transition" style="color: var(--main-text);">جميع الأخبار (8)</a></li>
+                            <li><a href="#" class="hover:text-accent-blue transition" style="color: var(--main-text);">إعلانات الدورات (3)</a></li>
+                            <li><a href="#" class="hover:text-accent-blue transition" style="color: var(--main-text);">فعاليات النادي (2)</a></li>
+                            <li><a href="#" class="hover:text-accent-blue transition" style="color: var(--main-text);">إنجازات الطلاب (1)</a></li>
+                            <li><a href="#" class="hover:text-accent-blue transition" style="color: var(--main-text);">الرحلات الميدانية (2)</a></li>
                         </ul>
                     </div>
                     
-                    <div class="bg-primary-dark-blue p-6 rounded-xl shadow-lg text-center">
+                    <div class="p-6 rounded-xl shadow-lg text-center" style="background-color: var(--primary-dark-blue);">
                         <h3 class="text-2xl font-bold text-white mb-3">هل أنت مستعد؟</h3>
                         <p class="text-gray-200 mb-5 text-sm">ابدأ مسيرتك في بناء الخبرات القيادية والعملية الآن.</p>
-                        <a href="register.html" class="bg-accent-blue text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition duration-300 shadow-md">
+                        <a href="register.html" class="text-white px-6 py-3 rounded-full font-bold transition duration-300 shadow-md hover:opacity-90" style="background-color: var(--accent-blue);">
                             انضم إلينا اليوم!
                         </a>
                     </div>
@@ -164,18 +186,36 @@
         </div>
     </main>
 
-    <footer id="contact" class="nav-bg py-8 mt-16 border-t border-accent-blue/50">
+    <footer id="contact" class="py-8 mt-16 border-t-2" style="background-color: #0A2F6B; border-top-color: var(--accent-blue);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-white text-md font-semibold mb-2">النادي الهندسي | ENGINEERING CLUB</p>
-            <p class="text-xs text-gray-500 mt-4">جميع الحقوق محفوظة لكلية الهندسة، جامعة المجمعة.</p>
+            <p class="text-xs text-gray-400 mt-4">جميع الحقوق محفوظة لكلية الهندسة، جامعة المجمعة.</p>
         </div>
     </footer>
 
     <script>
-        // كود لتغيير الوضع الداكن/الفاتح وتفعيل قائمة الجوال 
+        // كود لتغيير الوضع الداكن/الفاتح وتثبيت النمط
         const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
         const themeToggleMobile = document.getElementById('theme-toggle-mobile');
         const htmlElement = document.documentElement;
+
+        // 1. تطبيق النمط المحفوظ عند تحميل الصفحة (تثبيت النمط بين الصفحات)
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme);
+            
+            const toggleButtons = [themeToggleDesktop, themeToggleMobile];
+            toggleButtons.forEach(button => {
+                if (button) {
+                    // تحديد لون الأيقونة ليتناسب مع النمط الجديد
+                    button.style.color = savedTheme === 'dark' ? '#FFFFFF' : '#333333';
+                }
+            });
+        } else {
+            // إذا لم يكن هناك نمط محفوظ، اجعل النمط الافتراضي فاتحاً
+            htmlElement.classList.add('light'); 
+        }
 
         const toggleTheme = () => {
             if (htmlElement.classList.contains('light')) {
@@ -185,11 +225,25 @@
                 htmlElement.classList.remove('dark');
                 htmlElement.classList.add('light');
             }
+            
+            // 2. حفظ النمط المختار ليعمل في جميع الصفحات
+            const newTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            
+            // تحديث لون زر النمط مباشرة
+            const newColor = newTheme === 'dark' ? '#FFFFFF' : '#333333';
+            const toggleButtons = [themeToggleDesktop, themeToggleMobile];
+            toggleButtons.forEach(button => {
+                if (button) {
+                    button.style.color = newColor;
+                }
+            });
         };
 
         if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
         if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
         
+        // كود قائمة الجوال
         const button = document.getElementById('mobile-menu-button');
         const menu = document.getElementById('mobile-menu');
 
