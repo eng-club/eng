@@ -1,0 +1,88 @@
+<%- include('partials/header', { 
+    pageTitle: pageTitle, 
+    isLoggedIn: isLoggedIn, 
+    isAdmin: isAdmin, 
+    currentPage: 'dashboard' 
+}) %>
+
+<main class="flex-grow py-12 px-4">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        
+        <h1 class="text-3xl sm:text-4xl font-extrabold mb-4" style="color: var(--primary-dark-blue);">
+            مرحباً بك في لوحة التحكم!
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mb-10">
+            هنا يمكنك الوصول إلى إحصائياتك الشخصية، دوراتك، والميزات الخاصة بك.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            
+            <div class="bg-card p-6 rounded-xl shadow-lg border-b-4 border-cyan-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">النقاط الكلية</p>
+                        <p class="text-3xl font-bold mt-1" style="color: var(--accent-blue);">1,450</p>
+                    </div>
+                    <i class="fas fa-star text-3xl opacity-60" style="color: var(--accent-blue);"></i>
+                </div>
+            </div>
+
+            <div class="bg-card p-6 rounded-xl shadow-lg border-b-4 border-indigo-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">الدورات المكتملة</p>
+                        <p class="text-3xl font-bold mt-1" style="color: var(--primary-dark-blue);">8</p>
+                    </div>
+                    <i class="fas fa-graduation-cap text-3xl opacity-60" style="color: var(--primary-dark-blue);"></i>
+                </div>
+            </div>
+
+            <div class="bg-card p-6 rounded-xl shadow-lg border-b-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">الفعاليات</p>
+                        <p class="text-3xl font-bold mt-1 text-green-600 dark:text-green-400">12</p>
+                    </div>
+                    <i class="fas fa-calendar-check text-3xl opacity-60 text-green-600 dark:text-green-400"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bg-card p-8 rounded-xl shadow-2xl">
+            <h2 class="text-2xl font-bold mb-6 border-b pb-2" style="border-bottom-color: var(--accent-blue);">
+                <i class="fas fa-laptop-code ml-2"></i> الدورات قيد التقدم
+            </h2>
+            
+            <div class="flex items-center justify-between p-4 mb-4 border-2 rounded-lg" style="border-color: var(--light-bg);">
+                <div>
+                    <p class="font-semibold text-lg">مقدمة في الذكاء الاصطناعي (AI)</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">تاريخ الانتهاء المتوقع: 15 مارس 2026</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-sm font-medium ml-2">75%</span>
+                    <a href="/courses/ai" class="px-3 py-1 rounded-full text-white text-sm" style="background-color: var(--primary-dark-blue);">متابعة</a>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 mb-4 border-2 rounded-lg" style="border-color: var(--light-bg);">
+                <div>
+                    <p class="font-semibold text-lg">أساسيات الأمن السيبراني</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">تاريخ الانتهاء المتوقع: 5 أبريل 2026</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-sm font-medium ml-2">30%</span>
+                    <a href="/courses/cyber" class="px-3 py-1 rounded-full text-white text-sm bg-cyan-600 hover:opacity-90">ابدأ الآن</a>
+                </div>
+            </div>
+            
+            <div class="text-center mt-6">
+                <a href="/events" class="text-sm font-medium transition duration-150 hover:opacity-80" style="color: var(--accent-blue);">عرض جميع الدورات والفعاليات</a>
+            </div>
+
+        </div>
+        
+    </div>
+</main>
+
+<%- include('partials/footer') %>

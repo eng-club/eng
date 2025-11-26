@@ -1,0 +1,25 @@
+{
+  "name": "النادي الهندسي",
+  "version": "1.0.0",
+  "description": "خادم Node.js لملفات موقع النادي الهندسي",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "node"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "ejs": "^3.1.10",
+    "express": "^4.18.2",
+    "express-session": "^1.18.2",
+    "install": "^0.13.0",
+    "mysql2": "^3.15.3",
+    "npm": "^11.6.2"
+  }
+}

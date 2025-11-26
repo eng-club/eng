@@ -1,0 +1,66 @@
+<footer id="contact" class="py-8 mt-auto border-t-2" style="background-color: #0A2F6B; border-top-color: var(--accent-blue);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-white text-md font-semibold mb-2">النادي الهندسي | ENGINEERING CLUB</p>
+            <p class="text-xs text-gray-400 mt-4">جميع الحقوق محفوظة لكلية الهندسة، جامعة المجمعة.</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        // 1. تطبيق النمط المحفوظ عند تحميل الصفحة 
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme);
+            
+            const toggleButtons = [themeToggleDesktop, themeToggleMobile];
+            toggleButtons.forEach(button => {
+                if (button) {
+                    button.style.color = savedTheme === 'dark' ? '#FFFFFF' : '#333333';
+                }
+            });
+        } else {
+            htmlElement.classList.add('light'); 
+        }
+
+        const toggleTheme = () => {
+            if (htmlElement.classList.contains('light')) {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+            }
+            
+            // 2. حفظ النمط المختار
+            const newTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            
+            // تحديث لون زر النمط مباشرة
+            const newColor = newTheme === 'dark' ? '#FFFFFF' : '#333333';
+            const toggleButtons = [themeToggleDesktop, themeToggleMobile];
+            toggleButtons.forEach(button => {
+                if (button) {
+                    button.style.color = newColor;
+                }
+            });
+        };
+
+        if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+        if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        // كود قائمة الجوال
+        const button = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if(button && menu) {
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

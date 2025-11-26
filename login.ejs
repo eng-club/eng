@@ -1,0 +1,60 @@
+<%- include('partials/header', { 
+    pageTitle: pageTitle, 
+    currentPage: currentPage 
+}) %>
+
+<main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style="background-color: var(--light-bg);">
+    <div class="max-w-md w-full space-y-8 bg-card p-10 rounded-xl shadow-2xl border-t-4" style="border-top-color: var(--primary-dark-blue);">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold" style="color: var(--primary-dark-blue);">
+                تسجيل الدخول
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+                أدخل بياناتك للاستمرار إلى ملفك الشخصي.
+            </p>
+        </div>
+
+        <% if (error) { %>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">
+                <span class="block sm:inline"><%= error %></span>
+            </div>
+        <% } %>
+
+        <form action="/login" method="POST" class="space-y-6">
+            <div>
+                <label for="student_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    الرقم الجامعي
+                </label>
+                <div class="mt-1">
+                    <input id="student_id" name="student_id" type="text" required class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm" style="border-color: var(--light-bg); background-color: var(--light-bg); color: var(--main-text);">
+                </div>
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    كلمة المرور
+                </label>
+                <div class="mt-1">
+                    <input id="password" name="password" type="password" required class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm" style="border-color: var(--light-bg); background-color: var(--light-bg); color: var(--main-text);">
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2" style="background-color: var(--primary-dark-blue); focus-ring-color: var(--accent-blue);">
+                    تسجيل الدخول
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center text-sm">
+            <p class="text-gray-600 dark:text-gray-400">
+                ليس لديك حساب؟
+                <a href="/register" class="font-medium hover:text-opacity-80" style="color: var(--accent-blue);">
+                    سجل الآن
+                </a>
+            </p>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

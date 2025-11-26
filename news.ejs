@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النادي الهندسي | أخبار النادي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* تعريفات الألوان الأساسية والمتغيرات */
+        :root {
+            --primary-dark-blue: #0A2F6B; 
+            --accent-blue: #06B6D4; 
+              --light-bg: #F0F2F5;        
+            --main-bg: #FFFFFF;
+            --main-text: #333333;
+        }
+        html.dark {
+            --light-bg: #1A202C;
+            --main-bg: #2D3748;
+            --main-text: #E2E8F0;
+            --primary-dark-blue: #90CDF4; /* لون العناوين في الداكن */
+            --accent-blue: #38BDF8; /* لون التمييز في الداكن */ 
+        }
+
+        /* تنسيقات عامة */
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background-color: var(--light-bg); 
+            color: var(--main-text); 
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* تنسيقات شريط التنقل */
+        .nav-bg { 
+            background-color: var(--main-bg); 
+            color: var(--main-text); 
+        }
+        html.dark .nav-bg { 
+            background-color: #0A2F6B; 
+            color: #FFFFFF; 
+        }
+        .nav-link { color: var(--main-text); }
+        .nav-link:hover { color: var(--accent-blue); }
+        html.dark .nav-link { color: #FFFFFF; }
+        html.dark .nav-link:hover { color: var(--accent-blue); }
+
+        /* تنسيقات المحتوى */
+        h1, h2, h3 { color: var(--primary-dark-blue); }
+        .bg-card { background-color: var(--main-bg); color: var(--main-text); }
+        .icon-shadow { filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
+    </style>
+</head>
+<body class="text-main min-h-screen flex flex-col">
+    
+    <nav class="nav-bg shadow-lg sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                
+                <div class="flex-shrink-0 flex items-center">
+                    <img src="/images/club-logo.png" alt="شعار النادي الهندسي" class="h-10 w-auto ml-3 icon-shadow"> 
+                    <span class="text-2xl font-bold text-[var(--primary-dark-blue)] dark:text-white">ENG CLUB</span>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4 space-x-reverse text-sm font-medium">
+                    <a href="/" class="nav-link px-3 py-2">الرئيسية</a>
+                    <a href="/news" class="nav-link px-3 py-2 border-b-2 font-bold" style="border-bottom-color: var(--accent-blue);">أخبار النادي</a> 
+                    <a href="/about" class="nav-link px-3 py-2">فريقنا (من نحن)</a>
+                    <a href="/events" class="nav-link px-3 py-2">الدورات والفعاليات</a> 
+                    <a href="/leaderboard" class="nav-link px-3 py-2">لوحة الصدارة</a>
+                    <a href="/contact" class="nav-link px-3 py-2">تواصل معنا</a>
+
+                    <button id="theme-toggle-desktop" class="p-2 rounded-full hover:bg-accent-blue/20 transition duration-300" style="color: var(--main-text);">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+
+                    <% if (isLoggedIn) { %>
+                        <a href="/profile" class="px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 shadow-lg" style="background-color: var(--accent-blue); color: var(--primary-dark-blue);">الملف الشخصي</a>
+                    <% } else { %>
+                        <a href="/register" class="px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 shadow-lg" style="background-color: var(--accent-blue); color: var(--primary-dark-blue);">انضم إلينا</a>
+                        <a href="/login" class="nav-link px-3 py-2">تسجيل الدخول</a>
+                    <% } %>
+                </div>
+
+                <div class="flex items-center md:hidden">
+                    <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-accent-blue/20 transition duration-300 ml-2" style="color: var(--main-text);">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+                    <button id="mobile-menu-button" type="button" class="p-2 rounded-md hover:bg-accent-blue/20 focus:outline-none focus:ring-2" style="color: var(--main-text); focus-ring-color: var(--accent-blue);">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-right" style="background-color: #0A2F6B;">
+                <a href="/" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
+                <a href="/news" class="text-white block px-3 py-2 rounded-md text-base font-medium" style="background-color: var(--accent-blue);">أخبار النادي</a>
+                <a href="/about" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">فريقنا (من نحن)</a>
+                <a href="/events" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الدورات والفعاليات</a> 
+                <a href="/leaderboard" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">لوحة الصدارة</a>
+                <a href="/contact" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تواصل معنا</a>
+
+                <hr class="border-t border-white/20 my-2">
+                
+                <% if (isLoggedIn) { %>
+                    <a href="/profile" class="bg-white text-[var(--primary-dark-blue)] block px-3 py-2 rounded-md text-base font-medium mt-2">الملف الشخصي</a>
+                <% } else { %>
+                    <a href="/register" class="bg-white text-[var(--primary-dark-blue)] block px-3 py-2 rounded-md text-base font-medium mt-2">انضم إلينا</a>
+                    <a href="/login" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تسجيل الدخول</a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+   <main class="container mx-auto px-4 py-8">
+    <h1 class="text-5xl font-serif font-extrabold mb-10 text-center border-b-4 border-gray-900 pb-2" style="color: var(--primary-dark-blue);">
+        🏛️ أخبار وفعاليات النادي الهندسي 🗞️
+    </h1>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-2 space-y-8 border-r lg:border-r-2 border-gray-300 dark:border-gray-700 lg:pr-6">
+
+            <article class="p-4 border border-red-200 dark:border-red-800 rounded-lg shadow-lg">
+                <header class="mb-4">
+                    <h2 class="text-4xl font-serif font-bold mb-2" style="color: #B91C1C;">قطرة من دمك.. تنقذ حياة!</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 border-b border-gray-200 pb-2">**الخميس، ٧ فبراير ٢٠٢٥** | **العمل الإنساني**</p>
+                </header>
+                <div class="lg:columns-2 gap-6 space-y-4">
+                    <img src="/images/GjMvh8YXIAAblak.jpg" alt="حافلة التبرع بالدم" class="w-full h-auto rounded-md shadow-md mb-4 break-inside-avoid">
+                    <p class="text-lg leading-relaxed text-justify font-medium">
+                        نظّمت **اللجنة التطوعية بالنادي الهندسي** بالتعاون مع **نادي أصدقاء بنك الدم** مبادرة للتبرع بالدم، تعزيزًا للعطاء والمسؤولية المجتمعية. شهدت المبادرة تفاعلًا واسعًا من الطلاب والطالبات، الذين شاركوا بفاعلية في هذا العمل الإنساني النبيل.
+                        <blockquote class="mt-4 p-3 border-r-4 border-red-600 bg-red-50/50 dark:bg-gray-700/50 italic text-sm">
+                            قال تعالى: (وَمَنْ أَحْيَاهَا فَكَأَنَّمَا أَحْيَا النَّاسَ جَمِيعًا)
+                        </blockquote>
+                        <span class="text-sm font-medium mt-2 block" style="color: #B91C1C;">#دمي_حياة #تبرع_بالدم</span>
+                    </p>
+                </div>
+            </article>
+
+            <hr class="border-t-4 border-double border-gray-400 dark:border-gray-600 my-8">
+
+            <article class="p-4">
+                <header class="mb-4">
+                    <h2 class="text-3xl font-serif font-bold mb-2" style="color: var(--primary-dark-blue);">شراكة لتعزيز المحتوى الهندسي مع توستماسترز</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 border-b border-gray-200 pb-2">**الجمعة، ٢٨ فبراير ٢٠٢٥** | **تطوير المحتوى**</p>
+                </header>
+                <div class="lg:columns-2 gap-6 space-y-4">
+                    <p class="text-base leading-relaxed text-justify">
+                        عُقد اجتماع مثمر بين النادي الهندسي **BAC** و **توستماسترز جامعة المجمعة (MUTM)**. تم الاتفاق على انضمام MUTM كشريك في برنامج "رؤى وأفكار هندسية" لتعزيز التعاون وتقديم محتوى هندسي متميز يخدم الطلاب والمهتمين. وتضمنت الشراكة وضع معايير لتقديم السكربت، ووضوح الصوت، وألا يقل المقطع الصوتي أو الفيديو عن دقيقة واحدة.
+                    </p>
+                    <img src="/images/Gk4_B6VXkAAwohh.jpg" alt="آلية عمل البرنامج المشترك" class="w-full h-auto rounded-md shadow-md mb-4 break-inside-avoid">
+                </div>
+            </article>
+            
+            <hr class="border-t-2 border-dashed border-gray-300 dark:border-gray-700 my-8">
+
+            <article class="p-4">
+                <header class="mb-4">
+                    <h2 class="text-3xl font-serif font-bold mb-2" style="color: #FACC15;">اختتام معرض الإبداع والابتكارات الطلابية</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 border-b border-gray-200 pb-2">**الخميس، ١٩ سبتمبر ٢٠٢٤** | **الإبداع الهندسي**</p>
+                </header>
+                <div class="lg:columns-2 gap-6 space-y-4">
+                    <img src="/images/GX2wBnqXwAAIev-.jpg" alt="ركن عرض مشروع هندسي" class="w-full h-auto rounded-md shadow-md mb-4 break-inside-avoid">
+                    <p class="text-base leading-relaxed text-justify">
+                        برعاية سعادة عميد كلية الهندسة د.صالح الدهش، اختتم المعرض بنجاح، حيث أظهر المشاركون أفكارًا مبتكرة تعكس روح الهندسة. كان الحضور الأكاديمي داعماً قوياً للإبداعات الطلابية .
+                        <span class="text-sm font-medium mt-2 block" style="color: var(--primary-dark-blue);">#هندسة_مبتكرة</span>
+                    </p>
+                </div>
+            </article>
+
+        </div>
+        
+        <div class="lg:col-span-1 space-y-8">
+
+            <article class="p-4 border-b pb-4" style="border-bottom-color: #059669;">
+                <h3 class="text-2xl font-serif font-bold mb-2" style="color: #059669;">عطاء وفرح: زيارة إنسانية للمستشفى</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">**الأربعاء، ٢٣ أكتوبر ٢٠٢٤** | **تطوع**</p>
+                <img src="/images/GaljHP7W0AA9ahL.jpg" alt="الطلاب خارج مستشفى الملك خالد" class="w-full h-32 object-cover rounded-md shadow-md mb-3">
+                <p class="text-sm leading-snug text-justify">
+                    نظم النادي زيارة تطوعية إلى مستشفى الملك خالد، شملت توزيع الهدايا وإقامة فعاليات ترفيهية، لتعزيز الروح الإنسانية وإدخال الفرح والسرور لقلوب المرضى.
+                </p>
+            </article>
+
+            <article class="p-4 border-b pb-4" style="border-bottom-color: #FBBF24;">
+                <h3 class="text-2xl font-serif font-bold mb-2" style="color: var(--primary-dark-blue);">بهجة العيد: احتفال الطالبات بالفطر</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">**الثلاثاء، ١٦ أبريل ٢٠٢٤** | **مناسبات**</p>
+                <img src="/images/GLTVHwDXIAAYM6a.jpg" alt="كيكة عيد الفطر والزينة" class="w-full h-32 object-cover rounded-md shadow-md mb-3">
+                <p class="text-sm leading-snug text-justify">
+                    احتفل النادي الهندسي - قسم الطالبات - بعيد الفطر المبارك في أجواء مليئة بالمودة والتعاون، وتضمنت الاحتفالية ضيافة وتوزيعات وهدايا.
+                </p>
+            </article>
+
+            <article class="p-4 border-b pb-4" style="border-bottom-color: var(--accent-blue);">
+                <h3 class="text-2xl font-serif font-bold mb-2" style="color: var(--primary-dark-blue);">تحديات اليوم الرياضي 2</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">**الخميس، ٦ نوفمبر ٢٠٢٥** | **رياضة**</p>
+                <img src="/images/G5FaH3qXsAI5Fo-.jpg" alt="تجمع الطلاب في اليوم الرياضي" class="w-full h-32 object-cover rounded-md shadow-md mb-3">
+                <p class="text-sm leading-snug text-justify">
+                    أقيمت فعالية اليوم الرياضي 2 في بهو قسم الطلاب، وتضمنت مسابقات في البلياردو وتنس الطاولة والبلوت والشطرنج، لتعزيز الترفيه بين الأعضاء.
+                </p>
+            </article>
+            
+            <article class="p-4 border-b pb-4" style="border-bottom-color: #A0A0A0;">
+                <h3 class="text-2xl font-serif font-bold mb-2" style="color: var(--primary-dark-blue);">تسجيل الأعضاء الجدد</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">**الثلاثاء، ١٠ سبتمبر ٢٠٢٥** | **إعلانات**</p>
+                <p class="text-sm leading-snug text-justify">
+                    بدأ النادي الهندسي باستقبال طلبات الانضمام للأعضاء الجدد للموسم الحالي. بادر بالتسجيل واستكشف فرصك!
+                </p>
+            </article>
+
+        </div>
+    </div>
+    
+    <section class="mt-12 pt-8 border-t-4 border-double border-gray-400 dark:border-gray-600">
+        <h2 class="text-3xl font-serif font-extrabold mb-6" style="color: var(--primary-dark-blue);">أخبار سريعة أخرى</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            
+            <article class="p-3 border-r-2 border-gray-300 dark:border-gray-700">
+                <h3 class="text-xl font-serif font-bold mb-1" style="color: #1E6F40;">اليوم الوطني ٩٥</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">**٢٣ سبتمبر ٢٠٢٥**</p>
+                <p class="text-sm leading-snug">احتفل النادي باليوم الوطني 95 بفقرات ثقافية وجولة تعريفية، مع حفل تقطيع الكيك والضيافة الفاخرة.</p>
+            </article>
+            
+            <article class="p-3 border-r-2 border-gray-300 dark:border-gray-700">
+                <h3 class="text-xl font-serif font-bold mb-1" style="color: var(--primary-dark-blue);">يوم الصحبة</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">**١٨ سبتمبر ٢٠٢٥**</p>
+                <p class="text-sm leading-snug">أقيمت فعالية يوم الصحبة، والتي تضمنت أنشطة ترفيهية وتعارفية لتعزيز روح التعاون بين الأعضاء.</p>
+            </article>
+
+        </div>
+    </section>
+
+</main>
+    <footer id="contact" class="py-8 mt-16 border-t-2" style="background-color: #0A2F6B; border-top-color: var(--accent-blue);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-white text-md font-semibold mb-2">النادي الهندسي | ENGINEERING CLUB</p>
+            <p class="text-xs text-gray-400 mt-4">جميع الحقوق محفوظة لكلية الهندسة، جامعة المجمعة.</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        // تطبيق النمط المحفوظ عند تحميل الصفحة
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme);
+        } else {
+            htmlElement.classList.add('light'); 
+        }
+
+        const toggleTheme = () => {
+            const isDark = htmlElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+
+            htmlElement.classList.remove(isDark ? 'dark' : 'light');
+            htmlElement.classList.add(newTheme);
+            
+            // حفظ النمط المختار
+            localStorage.setItem('theme', newTheme);
+        };
+
+        if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+        if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        // كود قائمة الجوال
+        const button = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if(button && menu) {
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

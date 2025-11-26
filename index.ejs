@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النادي الهندسي | الصفحة الرئيسية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* التنسيقات الموحدة (من ملف CSS الخارجي) */
+        :root {
+            --primary-dark-blue: #0A2F6B; 
+            --accent-blue: #06B6D4; /* سماوي */    
+            --light-bg: #F0F2F5;        
+            --main-bg: #FFFFFF;         
+            --main-text: #333333;       
+            --soft-text: #6B7280;
+        }
+        html.dark {
+            --light-bg: #1A202C;        
+            --main-bg: #2D3748;         
+            --main-text: #E2E8F0;       
+            --soft-text: #A0AEC0;
+            --primary-dark-blue: #90CDF4; /* أزرق فاتح كعنوان في الداكن */ 
+            --accent-blue: #38BDF8; /* سماوي أكثر وضوحًا في الداكن */ 
+        }
+
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background-color: var(--light-bg); 
+            color: var(--main-text); 
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* تنسيقات مكونات Tailwind باستخدام متغيرات CSS */
+        .bg-card { background-color: var(--main-bg); color: var(--main-text); }
+        h1, h2, h3 { color: var(--primary-dark-blue); }
+        .text-soft-text { color: var(--soft-text); }
+
+        /* تنسيق زر البطل (hero-btn) */
+        .hero-btn {
+            background-color: var(--accent-blue);
+            color: var(--primary-dark-blue);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .hero-btn:hover {
+            opacity: 0.9;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        html.dark .hero-btn {
+            background-color: var(--accent-blue);
+            color: #1A202C; /* كحلي داكن */
+        }
+        
+        /* تنسيقات العناصر المتحركة (animated-circles-container) */
+        .animated-circles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1; /* يوضع خلف المحتوى */
+        }
+        .animated-circles-container::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(6, 182, 212, 0.1); /* accent-blue/10% */
+            border-radius: 50%;
+            top: -100px;
+            right: -150px;
+            animation: move-circle-1 20s infinite alternate;
+        }
+        .animated-circles-container::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(10, 47, 107, 0.05); /* primary-dark-blue/5% */
+            border-radius: 50%;
+            bottom: -50px;
+            left: -100px;
+            animation: move-circle-2 25s infinite alternate-reverse;
+        }
+        @keyframes move-circle-1 {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(-50px, 50px) scale(1.1); }
+        }
+        @keyframes move-circle-2 {
+            from { transform: translate(0, 0) scale(1.1); }
+            to { transform: translate(70px, -30px) scale(1); }
+        }
+        html.dark .animated-circles-container::before { background: rgba(56, 189, 248, 0.15); }
+        html.dark .animated-circles-container::after { background: rgba(144, 205, 244, 0.1); }
+        
+        /* تنسيق الروابط الاجتماعية في التذييل */
+        .social-link {
+             background-color: rgba(255, 255, 255, 0.1); 
+        }
+    </style>
+</head>
+<body class="text-main min-h-screen flex flex-col">
+    
+    <div class="animated-circles-container"></div>
+
+    <%- include('partials/header', { isLoggedIn: isLoggedIn, isAdmin: isAdmin, currentPage: 'home' }) %>
+
+    <main class="flex-grow mt-16">
+        
+        <section id="mission" class="max-w-7xl mx-auto mb-16 text-center px-4">
+            <h2 class="text-4xl font-extrabold mb-4">رسالتنا</h2>
+            <p class="text-lg text-soft-text dark:text-gray-400 max-w-3xl mx-auto mb-10">نلتزم بتوفير بيئة تعليمية تكميلية للطلاب، تعزز المهارات العملية وتنمي الروح القيادية والعمل الجماعي.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-right">
+                <div class="bg-card p-6 rounded-xl shadow-lg transform hover:scale-[1.02] transition duration-300 border-b-4 border-[var(--accent-blue)]">
+                    <h3 class="text-xl font-bold mb-3 mt-4 text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)]">تنمية المهارات</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">عبر إقامة الورش والدورات التدريبية المتقدمة التي تتجاوز المناهج الأكاديمية.</p>
+                </div>
+                <div class="bg-card p-6 rounded-xl shadow-lg transform hover:scale-[1.02] transition duration-300 border-b-4 border-[var(--accent-blue)]">
+                    <h3 class="text-xl font-bold mb-3 mt-4 text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)]">الريادة والمجتمع</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">تشجيع الطلاب على المبادرة والمشاركة في خدمة المجتمع والبيئة المحيطة.</p>
+                </div>
+                <div class="bg-card p-6 rounded-xl shadow-lg transform hover:scale-[1.02] transition duration-300 border-b-4 border-[var(--accent-blue)]">
+                    <h3 class="text-xl font-bold mb-3 mt-4 text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)]">الربط بسوق العمل</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">تنظيم الزيارات الميدانية واللقاءات مع الخبراء لتقليص الفجوة بين النظرية والتطبيق.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="links" class="max-w-7xl mx-auto mb-16 pt-10 px-4">
+            <h2 class="text-4xl font-extrabold text-center mb-10">استكشف النادي</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <a href="/events" class="bg-[var(--primary-dark-blue)] p-8 rounded-xl shadow-2xl flex items-center justify-between transform hover:scale-[1.02] transition duration-300 hover:ring-4 ring-[var(--accent-blue)]/50">
+                    <div class="text-white text-right">
+                        <h3 class="text-3xl font-extrabold mb-2">الدورات والمعسكرات 🚀</h3>
+                        <p class="text-gray-200">سجل في ورش العمل والرحلات الميدانية القادمة</p>
+                    </div>
+                    <div class="text-white">
+                           <i class="fas fa-calendar-alt h-12 w-12 text-5xl"></i>
+                    </div>
+                </a>
+
+                <a href="/leaderboard" class="bg-card p-8 rounded-xl shadow-2xl flex items-center justify-between transform hover:scale-[1.02] transition duration-300 hover:ring-4 ring-[var(--primary-dark-blue)]/50 border border-gray-100 dark:border-gray-700">
+                    <div class="text-right">
+                        <h3 class="text-3xl font-extrabold text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)] mb-2">لوحة الصدارة 🏆</h3>
+                        <p class="text-[var(--main-text)] dark:text-gray-300">شاهد ترتيب الأعضاء وتنافس على أعلى النقاط</p>
+                    </div>
+                    <div class="text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)]">
+                           <i class="fas fa-trophy h-12 w-12 text-5xl"></i>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="news-preview" class="max-w-7xl mx-auto py-10 px-4">
+            <h2 class="text-4xl font-extrabold text-center mb-10">آخر أخبار النادي</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-card rounded-xl shadow-lg overflow-hidden transform hover:translate-y-[-5px] transition duration-300">
+                    <div class="p-5 text-right">
+                        <p class="text-xs text-[var(--accent-blue)] font-bold mb-2">نشاطات</p>
+                        <h3 class="text-xl font-bold mb-2 text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)]">ورشة عمل عن التصميم الزلزالي</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-3">أقام النادي ورشة عمل متقدمة في الهندسة المدنية تناولت أحدث طرق التصميم ضد الزلازل، بمشاركة أكثر من 50 طالب وطالبة.</p>
+                        <a href="/news" class="text-[var(--accent-blue)] font-semibold hover:underline">اقرأ المزيد</a>
+                    </div>
+                </div>
+                <div class="bg-card rounded-xl shadow-lg overflow-hidden transform hover:translate-y-[-5px] transition duration-300">
+                    <div class="p-5 text-right">
+                        <p class="text-xs text-[var(--accent-blue)] font-bold mb-2">إعلان</p>
+                        <h3 class="text-xl font-bold mb-2 text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)]">بدء التسجيل لفريق الإعلام الجديد</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-3">ندعو المهتمين بالتصوير والمونتاج وكتابة المحتوى للانضمام إلى لجنة الإعلام لتغطية فعاليات النادي.</p>
+                        <a href="/news" class="text-[var(--accent-blue)] font-semibold hover:underline">اقرأ المزيد</a>
+                    </div>
+                </div>
+                <div class="bg-card rounded-xl shadow-lg overflow-hidden transform hover:translate-y-[-5px] transition duration-300">
+                    <div class="p-5 text-right">
+                        <p class="text-xs text-[var(--accent-blue)] font-bold mb-2">رحلات</p>
+                        <h3 class="text-xl font-bold mb-2 text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)]">زيارة موقع مشروع سكني عملاق</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-3">تم تنظيم زيارة ناجحة لمشروع إسكان كبير، حيث اطلع الطلاب على مراحل الإنشاء وإدارة المشاريع الهندسية في الموقع.</p>
+                        <a href="/news" class="text-[var(--accent-blue)] font-semibold hover:underline">اقرأ المزيد</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="/news" class="hero-btn inline-block px-8 py-3 rounded-full text-md font-bold hover:bg-blue-600">
+                    عرض جميع الأخبار
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        // ✅ [التحميل]: تمكين التسلسل في الصفحة الرئيسية وتحديد الوضع الفاتح كافتراضي
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme);
+        } else {
+            // تحديد الوضع الفاتح كافتراضي إذا لم يكن هناك حفظ
+             htmlElement.classList.add('light'); 
+        }
+
+        // وظيفة تبديل الوضع (معدلة للحفظ وضمان التسلسل لجميع الصفحات)
+        const toggleTheme = () => {
+            let currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+            let newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            htmlElement.classList.remove(currentTheme);
+            htmlElement.classList.add(newTheme);
+            
+            // 💾 [الحفظ]: حفظ النمط الجديد لجعله ثابتاً (Persistent)
+            localStorage.setItem('theme', newTheme); 
+        };
+
+        if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+        if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        // تفعيل قائمة الجوال (يفترض أن الزر والقائمة داخل header.ejs)
+        const button = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if(button && menu) {
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

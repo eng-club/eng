@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النادي الهندسي | لوحة المشرف</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="/styles.css"> 
+    
+    <style>
+        .admin-sidebar { background-color: var(--main-bg); border-left: 1px solid #E5E7EB; @apply dark:border-gray-700; }
+        .tab-link { @apply flex items-center p-3 rounded-lg text-[var(--main-text)] transition duration-200 hover:bg-gray-100 dark:hover:bg-gray-700; }
+        .tab-link.active { @apply bg-[var(--accent-blue)] text-white font-bold hover:bg-[var(--accent-blue)] dark:hover:bg-[var(--accent-blue)] shadow-md; }
+        .section-title { @apply text-3xl font-extrabold text-[var(--primary-dark-blue)] dark:text-gray-100 border-b pb-2 mb-4 border-gray-200 dark:border-gray-700; }
+        .card { @apply bg-white dark:bg-gray-700 rounded-xl shadow-lg transition duration-300; }
+        .input-field { @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 transition duration-150; }
+         .btn-primary { @apply px-6 py-2 rounded-lg text-white font-semibold transition duration-300 shadow-md; background-color: var(--primary-dark-blue); }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-800 text-[var(--main-text)] dark:text-gray-100 min-h-screen">
+    
+    <%- include('partials/header', { isLoggedIn: true, isAdmin: true, hideLinks: true }) %>
+
+    <div class="flex flex-col md:flex-row min-h-screen pt-16">
+        
+        <aside class="admin-sidebar w-full md:w-64 p-4 md:p-6 shadow-xl md:shadow-none md:fixed h-full z-10">
+            <h1 class="text-xl font-bold mb-6 border-b pb-3 text-[var(--primary-dark-blue)] dark:text-gray-100">لوحة المشرف</h1>
+            <nav class="space-y-2">
+                
+                <a href="#" data-tab="dashboard" class="tab-link active">
+                    <i class="fas fa-chart-line ml-3"></i>
+                    <span>نظرة عامة</span>
+                </a>
+                
+                <a href="#" data-tab="manage-users" class="tab-link">
+                    <i class="fas fa-users-cog ml-3"></i>
+                    <span>إدارة الأعضاء والنقاط</span>
+                </a>
+                
+                <a href="#" data-tab="manage-events" class="tab-link">
+                    <i class="fas fa-calendar-plus ml-3"></i>
+                    <span>إدارة الفعاليات</span>
+                </a>
+
+                <a href="#" data-tab="manage-news" class="tab-link">
+                    <i class="fas fa-bullhorn ml-3"></i>
+                    <span>إدارة الأخبار</span>
+                </a>
+                
+                <a href="/logout" class="tab-link text-red-500 hover:bg-red-100 dark:hover:bg-red-900">
+                    <i class="fas fa-sign-out-alt ml-3"></i>
+                    <span>تسجيل الخروج</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-4 md:p-8 md:mr-64">
+            
+            <div id="dashboard" class="tab-content p-4 md:p-8">
+                <h2 class="section-title mb-8">لوحة التحكم (Dashboard)</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card p-6 border-b-4 border-green-500">
+                        <p class="text-sm font-medium text-[var(--soft-text)]">إجمالي الأعضاء</p>
+                        <p class="text-4xl font-extrabold text-[var(--primary-dark-blue)] dark:text-gray-100 mt-2"><%= totalUsers %></p>
+                    </div>
+                    
+                    <div class="card p-6 border-b-4 border-[var(--accent-blue)]">
+                        <p class="text-sm font-medium text-[var(--soft-text)]">الفعاليات المُضافة</p>
+                        <p class="text-4xl font-extrabold text-[var(--primary-dark-blue)] dark:text-gray-100 mt-2"><%= totalEvents %></p>
+                    </div>
+
+                    <div class="card p-6 border-b-4 border-yellow-500">
+                        <p class="text-sm font-medium text-[var(--soft-text)]">متوسط النقاط</p>
+                        <p class="text-4xl font-extrabold text-[var(--primary-dark-blue)] dark:text-gray-100 mt-2"><%= averagePoints %></p>
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-8">
+                    <h3 class="text-xl font-bold mb-4">أعلى 5 طلاب نقاطاً</h3>
+                    <ul class="space-y-3">
+                        <% if (topUsers && topUsers.length > 0) { %>
+                            <% topUsers.forEach((user, index) => { %>
+                                <li class="flex justify-between items-center py-2 border-b dark:border-gray-600 last:border-b-0">
+                                    <span class="font-bold text-lg w-10 text-center text-[var(--accent-blue)]"><%= index + 1 %></span>
+                                    <span class="flex-1 font-medium"><%= user.name %></span>
+                                    <span class="text-sm text-[var(--soft-text)] ml-4"><%= user.department %></span>
+                                    <span class="text-xl font-extrabold text-green-500"><%= user.points %> نقطة</span>
+                                </li>
+                            <% }) %>
+                        <% } else { %>
+                            <li class="text-center text-[var(--soft-text)] py-4">لا توجد بيانات نقاط حاليًا.</li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="manage-users" class="tab-content hidden p-4 md:p-8">
+                <h2 class="section-title mb-8">إدارة الأعضاء والنقاط</h2>
+                <div id="user-management-area">
+                    <p class="text-center py-8 text-xl text-[var(--soft-text)]">جاري تحميل بيانات الأعضاء...</p>
+                </div>
+            </div>
+
+            <div id="manage-events" class="tab-content hidden p-4 md:p-8">
+                <h2 class="section-title mb-8">إدارة الفعاليات والدورات</h2>
+
+                <div class="card p-6 mb-8 border-t-4 border-[var(--accent-blue)]">
+                    <h3 class="text-2xl font-bold mb-4 text-[var(--primary-dark-blue)] dark:text-gray-100">إنشاء فعالية جديدة</h3>
+                    
+                    <form id="create-event-form" class="space-y-4">
+                        <div>
+                            <label for="event-name" class="block text-sm font-medium mb-1">اسم الفعالية/الدورة:</label>
+                            <input type="text" id="event-name" name="name" required class="input-field" placeholder="مثل: ورشة عمل Tailwind CSS">
+                        </div>
+                        <div>
+                            <label for="event-points" class="block text-sm font-medium mb-1">نقاط الحضور (Score):</label>
+                            <input type="number" id="event-points" name="points" required min="1" class="input-field" placeholder="مثل: 15">
+                        </div>
+                        <div>
+                            <label for="event-date" class="block text-sm font-medium mb-1">تاريخ ووقت الفعالية:</label>
+                            <input type="datetime-local" id="event-date" name="date" required class="input-field">
+                        </div>
+                        <div>
+                            <label for="event-description" class="block text-sm font-medium mb-1">الوصف المختصر:</label>
+                            <textarea id="event-description" name="description" rows="3" required class="input-field" placeholder="وصف قصير يظهر في صفحة الفعاليات..."></textarea>
+                        </div>
+                        <button type="submit" id="create-event-btn" class="btn-primary w-full md:w-auto"><i class="fas fa-plus-circle ml-2"></i> إنشاء الفعالية</button>
+                    </form>
+                    <p id="event-message" class="mt-4 hidden text-sm"></p>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4 text-[var(--primary-dark-blue)] dark:text-gray-100">قائمة الفعاليات الحالية</h3>
+                
+                <div class="overflow-x-auto card p-4">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-800">
+                            <tr>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">النقاط</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">رابط الحضور (URL)</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="events-list" class="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
+                            <% if (events && events.length > 0) { %>
+                                <% events.forEach(event => { %>
+                                    <tr id="event-<%= event.id %>"> 
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-[var(--main-text)] dark:text-gray-200"><%= event.name %></td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm text-[var(--soft-text)]"><%= event.points %></td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                            <a href="/attend/<%= event.id %>" target="_blank" class="text-[var(--accent-blue)] hover:text-blue-600 font-semibold text-xs">
+                                                /attend/<%= event.id %>
+                                            </a>
+                                            <button onclick="copyToClipboard('/attend/<%= event.id %>')" class="text-gray-400 hover:text-gray-600 mr-2 text-xs transition duration-150" title="نسخ الرابط">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="deleteEvent('<%= event.id %>')" 
+                                                    class="text-red-600 hover:text-red-900 mr-3 transition duration-150" 
+                                                    title="حذف">
+                                                <i class="fas fa-trash-alt"></i> حذف
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="4" class="px-4 py-4 text-center text-sm text-[var(--soft-text)]">لا توجد فعاليات حالية. يرجى إنشاء فعالية جديدة.</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="manage-news" class="tab-content hidden p-4 md:p-8">
+                <h2 class="section-title mb-8">إدارة الأخبار والإعلانات</h2>
+
+                <div class="card p-6 mb-8 border-t-4 border-yellow-500">
+                    <h3 class="text-2xl font-bold mb-4 text-[var(--primary-dark-blue)] dark:text-gray-100">نشر خبر/إعلان جديد</h3>
+                    
+                    <form id="create-news-form" class="space-y-4">
+                        <div>
+                            <label for="news-title" class="block text-sm font-medium mb-1">عنوان الخبر:</label>
+                            <input type="text" id="news-title" name="title" required class="input-field" placeholder="مثل: موعد ورشة عمل الذكاء الاصطناعي">
+                        </div>
+                        <div>
+                            <label for="news-content" class="block text-sm font-medium mb-1">محتوى الخبر:</label>
+                            <textarea id="news-content" name="content" rows="6" required class="input-field" placeholder="المحتوى الكامل للخبر أو الإعلان..."></textarea>
+                        </div>
+                        <button type="submit" id="create-news-btn" class="btn-primary w-full md:w-auto"><i class="fas fa-bullhorn ml-2"></i> نشر الخبر</button>
+                    </form>
+                    <p id="news-message" class="mt-4 hidden text-sm"></p>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4 text-[var(--primary-dark-blue)] dark:text-gray-100">قائمة الأخبار المنشورة</h3>
+                
+                <div class="overflow-x-auto card p-4">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-800">
+                            <tr>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">العنوان</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تاريخ النشر</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="news-list" class="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
+                            <tr>
+                                <td colspan="3" class="px-4 py-4 text-center text-sm text-[var(--soft-text)]">جاري تحميل الأخبار...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // وظيفة التبديل الرئيسية
+            function switchTab(targetId) {
+                tabLinks.forEach(l => l.classList.remove('active'));
+                tabContents.forEach(content => content.classList.add('hidden'));
+
+                const activeLink = document.querySelector(`.tab-link[data-tab="${targetId}"]`);
+                const targetContent = document.getElementById(targetId);
+                
+                if (activeLink) activeLink.classList.add('active');
+                if (targetContent) targetContent.classList.remove('hidden');
+
+                // إجراء خاص عند الانتقال لعلامات تبويب معينة
+                if (targetId === 'manage-users') {
+                    fetchUsers();
+                } else if (targetId === 'manage-news') {
+                    fetchNews();
+                }
+            }
+
+            // التبديل عند النقر
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (this.getAttribute('href') === '/logout') return;
+                    switchTab(this.getAttribute('data-tab'));
+                });
+            });
+
+            // تفعيل علامة التبويب الافتراضية عند التحميل
+            switchTab('dashboard'); 
+        
+            
+            // =====================================
+            // 6. إدارة الأعضاء والنقاط (Users/Points Management)
+            // =====================================
+            
+            async function fetchUsers() {
+                const area = document.getElementById('user-management-area');
+                area.innerHTML = '<p class="text-center py-8 text-xl text-[var(--soft-text)]"><i class="fas fa-spinner fa-spin ml-2"></i> جاري تحميل بيانات الأعضاء...</p>';
+                
+                try {
+                    const response = await fetch('/api/admin/users');
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        renderUsersTable(result.users);
+                    } else {
+                        area.innerHTML = `<p class="text-center py-8 text-xl text-red-500">❌ فشل تحميل المستخدمين: ${result.message || 'خطأ غير معروف'}</p>`;
+                    }
+                } catch (error) {
+                    area.innerHTML = '<p class="text-center py-8 text-xl text-red-500">❌ خطأ في الاتصال بالخادم عند جلب المستخدمين.</p>';
+                }
+            }
+            
+            function renderUsersTable(users) {
+                const area = document.getElementById('user-management-area');
+                if (users.length === 0) {
+                    area.innerHTML = '<p class="text-center py-8 text-xl text-[var(--soft-text)]">لا يوجد مستخدمون مسجلون بعد.</p>';
+                    return;
+                }
+
+                let html = `
+                    <div class="overflow-x-auto card p-4">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الرقم الجامعي</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">النقاط</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الدور الحالي</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">إدارة الدور</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">إدارة النقاط</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
+                `;
+                
+                users.forEach(user => {
+                    html += `
+                        <tr id="user-row-${user.student_id}">
+                            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">${user.student_id}</td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm">${user.name}</td>
+                            <td id="points-${user.student_id}" class="px-4 py-4 whitespace-nowrap text-sm font-bold text-green-600">${user.points}</td>
+                            <td id="role-${user.student_id}" class="px-4 py-4 whitespace-nowrap text-sm text-[var(--accent-blue)]">${user.role}</td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm">
+                                <select onchange="updateUserRole('${user.student_id}', this.value)" class="input-field py-1 text-sm">
+                                    <option value="${user.role}">${user.role} (الحالي)</option>
+                                    <option value="admin">مسؤول (Admin)</option>
+                                    <option value="member">عضو (Member)</option>
+                                    <option value="contestant">متسابق (Contestant)</option>
+                                </select>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm">
+                                <form onsubmit="event.preventDefault(); updatePoints('${user.student_id}', this)">
+                                    <div class="flex space-x-2 space-x-reverse items-center">
+                                        <input type="number" name="points" min="1" placeholder="قيمة" class="input-field w-20 py-1 text-sm">
+                                        <select name="action" class="input-field w-24 py-1 text-sm">
+                                            <option value="add">إضافة</option>
+                                            <option value="subtract">خصم</option>
+                                        </select>
+                                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg text-xs transition duration-150">تطبيق</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table></div>`;
+                area.innerHTML = html;
+            }
+
+            window.updateUserRole = async function(studentId, newRole) {
+                if (!confirm(`هل أنت متأكد من تغيير دور المستخدم ${studentId} إلى ${newRole}؟`)) return;
+
+                try {
+                    const response = await fetch(`/api/admin/user/${studentId}/role`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ newRole })
+                    });
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert(result.message);
+                        document.getElementById(`role-${studentId}`).textContent = newRole; // تحديث الدور في الجدول
+                    } else {
+                        alert('فشل التحديث: ' + result.message);
+                    }
+                } catch (error) {
+                    alert('حدث خطأ في الاتصال بالخادم لتحديث الدور.');
+                }
+            }
+
+            window.updatePoints = async function(studentId, form) {
+                const formData = new FormData(form);
+                const points = formData.get('points');
+                const action = formData.get('action');
+
+                if (!points || parseInt(points) <= 0) {
+                    alert('الرجاء إدخال قيمة نقاط صحيحة.');
+                    return;
+                }
+
+                if (!confirm(`هل أنت متأكد من ${action === 'add' ? 'إضافة' : 'خصم'} ${points} نقطة للمستخدم ${studentId}؟`)) return;
+
+                const btn = form.querySelector('button');
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+                try {
+                    const response = await fetch(`/api/admin/user/${studentId}/points`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ points, action })
+                    });
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert(result.message);
+                        fetchUsers(); // إعادة تحميل الجدول لرؤية النقاط الجديدة
+                    } else {
+                        alert('فشل تحديث النقاط: ' + result.message);
+                    }
+                } catch (error) {
+                    alert('حدث خطأ في الاتصال بالخادم لتحديث النقاط.');
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = 'تطبيق';
+                }
+            }
+
+            // =====================================
+            // 7. إدارة الفعاليات (Events Management) - (تم تعديل event._id إلى event.id)
+            // =====================================
+
+            window.copyToClipboard = function(path) {
+                const fullURL = window.location.origin + path;
+                navigator.clipboard.writeText(fullURL).then(() => {
+                    alert("✅ تم نسخ رابط الحضور بنجاح:\n" + fullURL);
+                });
+            }
+
+            const createForm = document.getElementById('create-event-form');
+            createForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('create-event-btn');
+                const msg = document.getElementById('event-message');
+                
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإنشاء...';
+                msg.classList.add('hidden');
+
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const response = await fetch('/api/events/create', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        msg.textContent = '✅ تم إنشاء الفعالية بنجاح!';
+                        msg.className = 'mt-4 text-sm text-green-600 dark:text-green-400';
+                        e.target.reset(); 
+                        setTimeout(() => window.location.reload(), 1500);
+                    } else {
+                        msg.textContent = '❌ فشل الإنشاء: ' + (result.message || 'خطأ غير معروف');
+                        msg.className = 'mt-4 text-sm text-red-600 dark:text-red-400';
+                    }
+                } catch (error) {
+                    msg.textContent = '❌ خطأ في الاتصال بالخادم.';
+                    msg.className = 'mt-4 text-sm text-red-600 dark:text-red-400';
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-plus-circle ml-2"></i> إنشاء الفعالية';
+                    msg.classList.remove('hidden');
+                }
+            });
+            
+            window.deleteEvent = async function(eventId) {
+                if (!confirm('هل أنت متأكد من حذف هذه الفعالية؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+
+                try {
+                    const response = await fetch(`/api/events/delete/${eventId}`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                    });
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert('✅ تم حذف الفعالية بنجاح.');
+                        const row = document.getElementById(`event-${eventId}`);
+                        if(row) row.remove();
+                    } else {
+                        alert('❌ فشل الحذف: ' + (result.message || 'خطأ غير معروف'));
+                    }
+                } catch (error) {
+                    alert('❌ خطأ في الاتصال بالخادم.');
+                }
+            }
+
+
+            // =====================================
+            // 8. إدارة الأخبار (News Management)
+            // =====================================
+
+            async function fetchNews() {
+                const listBody = document.getElementById('news-list');
+                listBody.innerHTML = `<tr><td colspan="3" class="px-4 py-4 text-center text-sm text-[var(--soft-text)]"><i class="fas fa-spinner fa-spin ml-2"></i> جاري تحميل الأخبار...</td></tr>`;
+
+                try {
+                    const response = await fetch('/api/news/list');
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        renderNewsTable(result.news);
+                    } else {
+                         listBody.innerHTML = `<tr><td colspan="3" class="px-4 py-4 text-center text-sm text-red-500">❌ فشل تحميل الأخبار.</td></tr>`;
+                    }
+                } catch (error) {
+                    listBody.innerHTML = `<tr><td colspan="3" class="px-4 py-4 text-center text-sm text-red-500">❌ خطأ في الاتصال بالخادم عند جلب الأخبار.</td></tr>`;
+                }
+            }
+            
+            function renderNewsTable(news) {
+                const listBody = document.getElementById('news-list');
+                if (news.length === 0) {
+                    listBody.innerHTML = `<tr><td colspan="3" class="px-4 py-4 text-center text-sm text-[var(--soft-text)]">لا توجد أخبار منشورة حالياً.</td></tr>`;
+                    return;
+                }
+                
+                let html = '';
+                news.forEach(item => {
+                    const date = new Date(item.published_at).toLocaleDateString('ar-SA', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+                    html += `
+                        <tr id="news-${item.id}">
+                            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">${item.title}</td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-[var(--soft-text)]">${date}</td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                <button onclick="deleteNews('${item.id}')" 
+                                        class="text-red-600 hover:text-red-900 transition duration-150" 
+                                        title="حذف الخبر">
+                                    <i class="fas fa-trash-alt"></i> حذف
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                listBody.innerHTML = html;
+            }
+            
+            const createNewsForm = document.getElementById('create-news-form');
+            createNewsForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('create-news-btn');
+                const msg = document.getElementById('news-message');
+                
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري النشر...';
+                msg.classList.add('hidden');
+
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const response = await fetch('/api/news/create', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        msg.textContent = '✅ تم نشر الخبر بنجاح!';
+                        msg.className = 'mt-4 text-sm text-green-600 dark:text-green-400';
+                        e.target.reset(); 
+                        fetchNews();
+                    } else {
+                        msg.textContent = '❌ فشل النشر: ' + (result.message || 'خطأ غير معروف');
+                        msg.className = 'mt-4 text-sm text-red-600 dark:text-red-400';
+                    }
+                } catch (error) {
+                    msg.textContent = '❌ خطأ في الاتصال بالخادم.';
+                    msg.className = 'mt-4 text-sm text-red-600 dark:text-red-400';
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-bullhorn ml-2"></i> نشر الخبر';
+                    msg.classList.remove('hidden');
+                }
+            });
+
+            window.deleteNews = async function(newsId) {
+                if (!confirm('هل أنت متأكد من حذف هذا الخبر؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+
+                try {
+                    const response = await fetch(`/api/news/delete/${newsId}`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                    });
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert('✅ تم حذف الخبر بنجاح.');
+                        const row = document.getElementById(`news-${newsId}`);
+                        if(row) row.remove();
+                    } else {
+                        alert('❌ فشل الحذف: ' + (result.message || 'خطأ غير معروف'));
+                    }
+                } catch (error) {
+                    alert('❌ خطأ في الاتصال بالخادم.');
+                }
+            }
+
+
+            // =====================================
+            // 9. منطق الوضع الداكن (Theme Toggle) - لضمان عمل الواجهة
+            // =====================================
+            const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+            const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+            const htmlElement = document.documentElement;
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                htmlElement.classList.remove('light', 'dark');
+                htmlElement.classList.add(savedTheme); 
+            } else {
+                htmlElement.classList.add('light'); 
+            }
+
+            const toggleTheme = () => {
+                let currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+                let newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+                htmlElement.classList.remove(currentTheme);
+                htmlElement.classList.add(newTheme);
+                
+                localStorage.setItem('theme', newTheme);
+            };
+
+            if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+            if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+        });
+    </script>
+</body>
+</html>

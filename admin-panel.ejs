@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النادي الهندسي | لوحة المشرف</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="/styles.css">
+    
+    <style>
+        /* التنسيقات الخاصة بلوحة المشرف فقط (للسهولة) */
+        .admin-sidebar {
+            background-color: var(--main-bg); 
+            border-left: 1px solid #E5E7EB;
+            @apply dark:border-gray-700;
+        }
+        .tab-link {
+            @apply flex items-center p-3 rounded-lg text-[var(--main-text)] transition duration-200 hover:bg-gray-100 dark:hover:bg-gray-700;
+        }
+        .tab-link.active {
+            @apply bg-[var(--accent-blue)] text-white font-bold hover:bg-[var(--accent-blue)] dark:hover:bg-[var(--accent-blue)] shadow-md;
+        }
+        .tab-link span {
+            @apply mr-3 text-sm font-medium;
+        }
+        .section-title {
+            @apply text-3xl font-extrabold text-[var(--primary-dark-blue)] dark:text-gray-100 border-b pb-2 mb-4 border-gray-200 dark:border-gray-700;
+        }
+        /* تعديل حقل الإدخال */
+        .input-field {
+            @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 transition duration-150;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-800 text-[var(--main-text)] dark:text-gray-100 min-h-screen">
+    
+    <%- include('partials/header', { isLoggedIn: true, isAdmin: true, hideLinks: true }) %>
+
+    <div class="flex flex-col md:flex-row min-h-screen pt-16">
+        
+        <aside class="admin-sidebar w-full md:w-64 p-4 md:p-6 shadow-xl md:shadow-none md:fixed h-full z-10">
+            <h1 class="text-xl font-bold mb-6 border-b pb-3 text-[var(--primary-dark-blue)] dark:text-gray-100">لوحة المشرف</h1>
+            <nav class="space-y-2">
+                
+                <a href="#" data-tab="dashboard" class="tab-link active">
+                    <i class="fas fa-chart-line ml-3"></i>
+                    <span>نظرة عامة</span>
+                </a>
+                
+                <a href="#" data-tab="manage-users" class="tab-link">
+                    <i class="fas fa-users-cog ml-3"></i>
+                    <span>إدارة الأعضاء</span>
+                </a>
+                
+                <a href="#" data-tab="manage-events" class="tab-link">
+                    <i class="fas fa-calendar-plus ml-3"></i>
+                    <span>إدارة الفعاليات</span>
+                </a>
+                
+                <a href="/logout" class="tab-link text-red-500 hover:bg-red-100 dark:hover:bg-red-900">
+                    <i class="fas fa-sign-out-alt ml-3"></i>
+                    <span>تسجيل الخروج</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-4 md:p-8 md:mr-64">
+            
+            <div id="dashboard" class="tab-content p-4 md:p-8">
+                <h2 class="section-title mb-8">لوحة التحكم (Dashboard)</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card p-6 border-b-4 border-green-500">
+                        <p class="text-sm font-medium text-[var(--soft-text)]">إجمالي الأعضاء</p>
+                        <p class="text-4xl font-extrabold text-[var(--primary-dark-blue)] dark:text-gray-100 mt-2"><%= totalUsers %></p>
+                    </div>
+                    
+                    <div class="card p-6 border-b-4 border-[var(--accent-blue)]">
+                        <p class="text-sm font-medium text-[var(--soft-text)]">الفعاليات المُضافة</p>
+                        <p class="text-4xl font-extrabold text-[var(--primary-dark-blue)] dark:text-gray-100 mt-2"><%= totalEvents %></p>
+                    </div>
+
+                    <div class="card p-6 border-b-4 border-yellow-500">
+                        <p class="text-sm font-medium text-[var(--soft-text)]">متوسط النقاط</p>
+                        <p class="text-4xl font-extrabold text-[var(--primary-dark-blue)] dark:text-gray-100 mt-2"><%= averagePoints %></p>
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-8">
+                    <h3 class="text-xl font-bold mb-4">أعلى 5 طلاب نقاطاً</h3>
+                    </div>
+
+            </div>
+            
+            <div id="manage-users" class="tab-content hidden p-4 md:p-8">
+                <h2 class="section-title mb-8">إدارة الأعضاء (Users)</h2>
+                <div class="card p-6">
+                    <p class="text-[var(--soft-text)]">هذا القسم مخصص لعرض وإدارة بيانات الأعضاء (تعديل دورهم، حذف حساب، إلخ). (تحتاج إلى تطبيق الكود الخاص بهذا)</p>
+                </div>
+            </div>
+
+            <div id="manage-events" class="tab-content hidden p-4 md:p-8">
+                <h2 class="section-title mb-8">إدارة الفعاليات والدورات</h2>
+
+                <div class="card p-6 mb-8 border-t-4 border-[var(--accent-blue)]">
+                    <h3 class="text-2xl font-bold mb-4 text-[var(--primary-dark-blue)] dark:text-gray-100">إنشاء فعالية جديدة</h3>
+                    
+                    <form id="create-event-form" class="space-y-4">
+                        <div>
+                            <label for="event-name" class="block text-sm font-medium mb-1">اسم الفعالية/الدورة:</label>
+                            <input type="text" id="event-name" name="name" required 
+                                   class="input-field" placeholder="مثل: ورشة عمل Tailwind CSS">
+                        </div>
+                        <div>
+                            <label for="event-points" class="block text-sm font-medium mb-1">نقاط الحضور (Score):</label>
+                            <input type="number" id="event-points" name="points" required min="1" 
+                                   class="input-field" placeholder="مثل: 15">
+                        </div>
+                        <div>
+                            <label for="event-date" class="block text-sm font-medium mb-1">تاريخ ووقت الفعالية:</label>
+                            <input type="datetime-local" id="event-date" name="date" required 
+                                   class="input-field">
+                        </div>
+                        <div>
+                            <label for="event-description" class="block text-sm font-medium mb-1">الوصف المختصر:</label>
+                            <textarea id="event-description" name="description" rows="3" required 
+                                      class="input-field" placeholder="وصف قصير يظهر في صفحة الفعاليات..."></textarea>
+                        </div>
+                        <button type="submit" id="create-event-btn" 
+                                class="btn-primary w-full md:w-auto"><i class="fas fa-plus-circle ml-2"></i> إنشاء الفعالية</button>
+                    </form>
+                    <p id="event-message" class="mt-4 hidden text-sm"></p>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4 text-[var(--primary-dark-blue)] dark:text-gray-100">قائمة الفعاليات الحالية</h3>
+                
+                <div class="overflow-x-auto card p-4">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-800">
+                            <tr>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">النقاط</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">رابط الحضور (URL)</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="events-list" class="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
+                            <% if (events && events.length > 0) { %>
+                                <% events.forEach(event => { %>
+                                    <tr id="event-<%= event._id %>">
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-[var(--main-text)] dark:text-gray-200"><%= event.name %></td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm text-[var(--soft-text)]"><%= event.points %></td>
+                                        
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                            <a href="/attend/<%= event._id %>" target="_blank" class="text-[var(--accent-blue)] hover:text-blue-600 font-semibold text-xs">
+                                                /attend/<%= event._id %>
+                                            </a>
+                                            <button onclick="copyToClipboard('/attend/<%= event._id %>')" class="text-gray-400 hover:text-gray-600 mr-2 text-xs transition duration-150" title="نسخ الرابط">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </td>
+                                        
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="deleteEvent('<%= event._id %>')" 
+                                                    class="text-red-600 hover:text-red-900 mr-3 transition duration-150" 
+                                                    title="حذف">
+                                                <i class="fas fa-trash-alt"></i> حذف
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="4" class="px-4 py-4 text-center text-sm text-[var(--soft-text)]">لا توجد فعاليات حالية. يرجى إنشاء فعالية جديدة.</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // =====================================
+            // 1. منطق التبديل بين علامات التبويب (Tab Switching Logic)
+            // =====================================
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // تفعيل علامة التبويب النشطة عند التحميل (الافتراضية هي dashboard)
+            const initialTab = document.querySelector('.tab-link.active');
+            if(initialTab) {
+                const targetId = initialTab.getAttribute('data-tab');
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.remove('hidden');
+                }
+            }
+
+
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // إزالة التنشيط من جميع الروابط وإخفاء جميع المحتويات
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.add('hidden'));
+
+                    // تفعيل الرابط الحالي وإظهار المحتوى المطابق
+                    this.classList.add('active');
+                    const targetId = this.getAttribute('data-tab');
+                    const targetContent = document.getElementById(targetId);
+                    if (targetContent) {
+                        targetContent.classList.remove('hidden');
+                    }
+                });
+            });
+
+
+            // =====================================
+            // 2. وظائف إدارة الفعاليات (Admin Event Management)
+            // =====================================
+
+            // وظيفة لنسخ الرابط
+            window.copyToClipboard = function(path) {
+                const fullURL = window.location.origin + path;
+                navigator.clipboard.writeText(fullURL).then(() => {
+                    alert("✅ تم نسخ رابط الحضور بنجاح:\n" + fullURL);
+                }, (err) => {
+                    console.error('فشل في النسخ: ', err);
+                });
+            }
+
+            // وظيفة إنشاء فعالية
+            const createForm = document.getElementById('create-event-form');
+            if (createForm) {
+                createForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const btn = document.getElementById('create-event-btn');
+                    const msg = document.getElementById('event-message');
+                    
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإنشاء...';
+                    msg.classList.add('hidden');
+
+                    const formData = new FormData(e.target);
+                    const data = Object.fromEntries(formData.entries());
+
+                    try {
+                        // **مهم: تأكد من تفعيل هذا المسار (route) على الخادم**
+                        const response = await fetch('/api/events/create', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+                        const result = await response.json();
+
+                        if (response.ok && result.success) {
+                            msg.textContent = '✅ تم إنشاء الفعالية بنجاح!';
+                            msg.className = 'mt-4 text-sm text-green-600 dark:text-green-400';
+                            e.target.reset(); // تفريغ النموذج
+                            // تحديث الصفحة لعرض الفعالية الجديدة في الجدول
+                            setTimeout(() => window.location.reload(), 1500); 
+                        } else {
+                            msg.textContent = '❌ فشل الإنشاء: ' + (result.message || 'خطأ غير معروف');
+                            msg.className = 'mt-4 text-sm text-red-600 dark:text-red-400';
+                        }
+                    } catch (error) {
+                        msg.textContent = '❌ خطأ في الاتصال بالخادم. تأكد من مسار /api/events/create.';
+                        msg.className = 'mt-4 text-sm text-red-600 dark:text-red-400';
+                        console.error('Error creating event:', error);
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-plus-circle ml-2"></i> إنشاء الفعالية';
+                        msg.classList.remove('hidden');
+                    }
+                });
+            }
+            
+
+            // وظيفة حذف فعالية
+            window.deleteEvent = async function(eventId) {
+                if (!confirm('هل أنت متأكد من حذف هذه الفعالية؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+
+                try {
+                    // **مهم: تأكد من تفعيل هذا المسار (route) على الخادم**
+                    const response = await fetch(`/api/events/delete/${eventId}`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                    });
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert('✅ تم حذف الفعالية بنجاح.');
+                        // إزالة الصف من الجدول مباشرة
+                        const row = document.getElementById(`event-${eventId}`);
+                        if(row) row.remove();
+                    } else {
+                        alert('❌ فشل الحذف: ' + (result.message || 'خطأ غير معروف'));
+                    }
+                } catch (error) {
+                    alert('❌ خطأ في الاتصال بالخادم.');
+                    console.error('Error deleting event:', error);
+                }
+            }
+
+
+        });
+    </script>
+
+    <script>
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        // التحميل: تطبيق النمط المحفوظ
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme); 
+        } else {
+             htmlElement.classList.add('light'); // النمط الافتراضي
+        }
+
+        const toggleTheme = () => {
+            let currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+            let newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            htmlElement.classList.remove(currentTheme);
+            htmlElement.classList.add(newTheme);
+            
+            // الحفظ: حفظ النمط الجديد
+            localStorage.setItem('theme', newTheme);
+        };
+
+        if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+        if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+    </script>
+    
+    <script src="/animation.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النادي الهندسي | تقييم الفعاليات والنقاط</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* التنسيقات الموحدة (كما هي) */
+        :root {
+            --primary-dark-blue: #0A2F6B; 
+            --accent-blue: #06B6D4;     
+            --light-bg: #F0F2F5;        
+            --main-bg: #FFFFFF;        
+            --main-text: #333333;      
+            --card-bg: #FFFFFF; 
+        }
+        html.dark {
+            --light-bg: #1A202C;        
+            --main-bg: #2D3748;        
+            --main-text: #E2E8F0;      
+            --primary-dark-blue: #90CDF4; 
+            --accent-blue: #90CDF4;    
+            --card-bg: #4A5568; 
+        }
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background-color: var(--light-bg);
+            color: var(--main-text);
+            min-height: 100vh;
+        }
+        .header-bg { background-color: var(--primary-dark-blue); }
+        .text-accent { color: var(--accent-blue); }
+        .bg-card { background-color: var(--card-bg); }
+        .message-success { background-color: #D4EDDA; color: #155724; border-color: #C3E6CB; }
+        .message-error { background-color: #F8D7DA; color: #721C24; border-color: #F5C6CB; }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/header', { isLoggedIn: isLoggedIn, isAdmin: isAdmin }) %>
+
+    <main class="container mx-auto p-4 md:p-8 mt-16">
+        <div class="max-w-md mx-auto bg-card p-6 md:p-8 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700">
+            <h1 class="text-3xl font-extrabold text-center mb-4" style="color: var(--primary-dark-blue);">
+                تقييم الفعالية وتسجيل النقاط <span class="text-accent">⭐</span>
+            </h1>
+
+            <p class="text-center text-gray-600 dark:text-gray-300 mb-8">
+                اختر الفعالية التي حضرتها وقم بتقييمها لتسجيل النقاط تلقائياً.
+            </p>
+
+            <form id="claim-points-form" class="space-y-6">
+                
+                <div id="message-box" class="p-3 rounded-lg text-center hidden" role="alert" style="direction: rtl; text-align: right;"></div>
+
+                <div>
+                    <label for="eventId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        اختر الفعالية
+                    </label>
+                    <select id="eventId" name="eventId" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <option value="" disabled selected>-- اختر الفعالية من القائمة --</option>
+                        
+                        <% activeEvents.forEach(event => { %>
+                            <option value="<%= event.id %>"><%= event.name %> (+<%= event.points %> نقاط)</option>
+                        <% }); %>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="rating" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        تقييمك للفعالية (من 1 إلى 5)
+                    </label>
+                    <input type="number" id="rating" name="rating" required min="1" max="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="أدخل تقييمك (مثلاً: 5)">
+                </div>
+                
+                <button type="submit" id="submit-button" class="w-full header-bg text-white py-3 rounded-lg font-bold hover:opacity-90 transition duration-200" style="background-color: var(--primary-dark-blue);">
+                    تقييم وتسجيل النقاط
+                </button>
+                
+                <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+                    يجب أن تكون مسجل دخولك لتقييم وتسجيل النقاط.
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <%- include('partials/footer', { isLoggedIn: isLoggedIn, isAdmin: isAdmin }) %>
+
+    <script>
+        document.getElementById('claim-points-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            const messageBox = document.getElementById('message-box');
+            const submitButton = document.getElementById('submit-button');
+            
+            // التأكد من أن التقييم صالح
+            if (data.rating < 1 || data.rating > 5) {
+                messageBox.classList.remove('message-success', 'hidden');
+                messageBox.classList.add('message-error');
+                messageBox.textContent = '❌ يجب أن يكون التقييم بين 1 و 5.';
+                return;
+            }
+
+            messageBox.classList.add('hidden');
+            submitButton.disabled = true;
+            submitButton.textContent = 'جاري المعالجة...';
+
+            try {
+                const response = await fetch('/event/claim-points', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const responseData = await response.json();
+
+                if (response.ok && responseData.success) {
+                    messageBox.classList.remove('message-error', 'hidden');
+                    messageBox.classList.add('message-success');
+                    messageBox.textContent = responseData.message;
+                    // بعد النجاح، يمكننا تعطيل حقل الفعالية لمنع التسجيل المزدوج
+                    document.getElementById('eventId').querySelector(`option[value="${data.eventId}"]`).disabled = true;
+                    form.reset(); 
+                } else {
+                    messageBox.classList.remove('message-success', 'hidden');
+                    messageBox.classList.add('message-error');
+                    messageBox.textContent = '❌ فشل: ' + (responseData.message || 'حدث خطأ غير معروف.');
+                }
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                messageBox.classList.remove('message-success', 'hidden');
+                messageBox.classList.add('message-error');
+                messageBox.textContent = '❌ خطأ في الاتصال بالخادم.';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'تقييم وتسجيل النقاط';
+            }
+        });
+
+        // كود تبديل الوضع (Theme Toggle) وقائمة الجوال...
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme); 
+        }
+
+        const toggleTheme = () => {
+            if (htmlElement.classList.contains('light')) {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+            }
+            const newTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+        };
+
+        if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+        if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        const button = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if(button && menu) {
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

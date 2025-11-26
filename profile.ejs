@@ -1,0 +1,122 @@
+<%- include('partials/header', { 
+    pageTitle: pageTitle, 
+    isLoggedIn: isLoggedIn, 
+    isAdmin: isAdmin, 
+    currentPage: currentPage 
+}) %>
+
+<main class="flex-grow py-16 px-4">
+    <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+        
+        <h1 class="text-3xl sm:text-4xl font-extrabold mb-2" style="color: var(--primary-dark-blue);">
+            مرحباً بك، <%= user.name %>!
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+            <% if (isAdmin) { %>
+                أنت مُسجّل كمسؤول.
+            <% } else if (isMember) { %>
+                أنت عضو في <%= user.committee %> (النادي الهندسي).
+            <% } else { %>
+                ملفك الشخصي كمتسابق.
+            <% } %>
+        </p>
+
+        <div class="bg-card p-6 md:p-8 rounded-xl shadow-2xl mb-8 border-t-4" style="border-top-color: var(--accent-blue);">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center border-b pb-2" style="border-bottom-color: var(--light-bg);">
+                    <p class="font-medium text-gray-500 dark:text-gray-400"><i class="fas fa-id-card ml-2"></i> الرقم الجامعي:</p>
+                    <p class="font-semibold"><%= user.student_id %></p>
+                </div>
+                
+                <div class="flex justify-between items-center border-b pb-2" style="border-bottom-color: var(--light-bg);">
+                    <p class="font-medium text-gray-500 dark:text-gray-400"><i class="fas fa-envelope ml-2"></i> البريد الإلكتروني:</p>
+                    <p class="font-semibold"><%= user.email %></p>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <p class="font-medium text-gray-500 dark:text-gray-400"><i class="fas fa-city ml-2"></i> القسم:</p>
+                    <p class="font-semibold"><%= user.department %></p>
+                </div>
+            </div>
+        </div>
+
+
+        <% if (isAdmin) { %>
+            <div class="bg-red-50 dark:bg-red-900/20 p-8 rounded-xl shadow-xl">
+                <h2 class="text-2xl font-bold mb-4 text-red-700 dark:text-red-400">
+                    <i class="fas fa-shield-alt ml-2"></i> منطقة المسؤولين
+                </h2>
+                <p class="mb-4">
+                    بصفتك مسؤولاً، يمكنك الوصول إلى إعدادات النظام وإدارة المستخدمين والفعاليات.
+                </p>
+                <a href="/admin/dashboard" class="inline-block px-6 py-3 rounded-full text-white font-semibold transition duration-300 hover:opacity-90" style="background-color: #A50000;">
+                    انتقل إلى لوحة التحكم الإدارية <i class="fas fa-arrow-left mr-2"></i>
+                </a>
+            </div>
+
+        <% } else if (isMember) { %>
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-8 rounded-xl shadow-xl">
+                <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-dark-blue);">
+                    <i class="fas fa-users-cog ml-2"></i> معلومات اللجنة
+                </h2>
+                <div class="flex justify-between items-center border-b pb-2 mb-4" style="border-bottom-color: var(--light-bg);">
+                    <p class="font-medium text-gray-600 dark:text-gray-300">اللجنة الحالية:</p>
+                    <span class="px-3 py-1 bg-accent-blue/10 rounded-full font-semibold" style="color: var(--accent-blue);">
+                        <%= user.committee %>
+                    </span>
+                </div>
+                
+                <p class="mb-4">
+                    يمكنك الوصول إلى ملفات وموارد لجنتك من هنا.
+                </p>
+                <a href="/member/tasks" class="inline-block px-6 py-3 rounded-full text-white font-semibold transition duration-300 hover:opacity-90" style="background-color: var(--primary-dark-blue);">
+                    مهام اللجنة <i class="fas fa-tasks mr-2"></i>
+                </a>
+            </div>
+
+        <% } else { %>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="bg-card p-6 rounded-xl shadow-lg border-b-4 border-cyan-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">النقاط الكلية</p>
+                            <p class="text-4xl font-bold mt-1" style="color: var(--accent-blue);"><%= user.points.toLocaleString() %></p>
+                        </div>
+                        <i class="fas fa-trophy text-4xl opacity-60" style="color: var(--accent-blue);"></i>
+                    </div>
+                    <div class="mt-4">
+                        <a href="/leaderboard" class="text-sm font-medium hover:opacity-80" style="color: var(--primary-dark-blue);">شاهد ترتيبك في لوحة الصدارة</a>
+                    </div>
+                </div>
+
+                <div class="bg-card p-6 rounded-xl shadow-lg border-b-4 border-green-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">الدورات قيد التقدم</p>
+                            <p class="text-4xl font-bold mt-1 text-green-600 dark:text-green-400">3</p> 
+                        </div>
+                        <i class="fas fa-laptop-code text-4xl opacity-60 text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <div class="mt-4">
+                        <a href="/events" class="text-sm font-medium hover:opacity-80" style="color: var(--primary-dark-blue);">اكتشف دورات جديدة</a>
+                    </div>
+                </div>
+            </div>
+            
+        <% } %>
+
+
+        <div class="flex justify-center space-x-4 space-x-reverse mt-10 border-t pt-8" style="border-top-color: var(--light-bg);">
+            <a href="/profile/edit" class="px-6 py-3 rounded-full text-white font-semibold transition duration-300 hover:opacity-90" style="background-color: var(--primary-dark-blue);">
+                تعديل البيانات <i class="fas fa-edit mr-2"></i>
+            </a>
+            <a href="/logout" class="px-6 py-3 rounded-full font-semibold transition duration-300 border border-gray-300 hover:bg-red-500 hover:text-white">
+                تسجيل الخروج <i class="fas fa-sign-out-alt mr-2"></i>
+            </a>
+        </div>
+        
+    </div>
+</main>
+
+<%- include('partials/footer') %>

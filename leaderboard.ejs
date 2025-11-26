@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النادي الهندسي | لوحة الصدارة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* ==================================== */
+        /* التنسيقات الموحدة ومتغيرات الثيم */
+        /* ==================================== */
+        :root {
+            --primary-dark-blue: #0A2F6B; 
+            --accent-blue: #06B6D4; /* لون التمييز الفاتح (سماوي) */ 
+            --light-bg: #F0F2F5; 
+            --main-bg: #FFFFFF; 
+            --main-text: #333333; 
+        }
+        html.dark {
+            --light-bg: #1A202C; 
+            --main-bg: #2D3748; 
+            --main-text: #E2E8F0; 
+            --primary-dark-blue: #90CDF4; /* لون العنوان في الداكن */
+            --accent-blue: #38BDF8; /* لون التمييز في الداكن */ 
+        }
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background-color: var(--light-bg); 
+            color: var(--main-text); 
+            transition: background-color 0.3s, color 0.3s;
+        }
+        /* تنسيقات شريط التنقل */
+        .nav-bg { 
+            background-color: var(--main-bg); 
+            color: var(--main-text); 
+        }
+        html.dark .nav-bg { 
+            background-color: #0A2F6B; /* خلفية الشريط الداكنة */
+            color: #FFFFFF;
+        }
+        .nav-link { color: var(--main-text); }
+        .nav-link:hover { color: var(--accent-blue); }
+        html.dark .nav-link { color: #FFFFFF; }
+        html.dark .nav-link:hover { color: var(--accent-blue); }
+        
+        /* تنسيقات عامة للمحتوى */
+        h1, h2, h3 { color: var(--primary-dark-blue); }
+        .bg-card { background-color: var(--main-bg); color: var(--main-text); }
+        .icon-shadow { filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
+        
+        /* تنسيقات لوحة الصدارة */
+        .medal-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .rank-1 .medal-icon { color: #FFD700; } /* ذهبي */
+        .rank-2 .medal-icon { color: #C0C0C0; } /* فضي */
+        .rank-3 .medal-icon { color: #CD7F32; } /* برونزي */
+        
+        .card { 
+            background-color: var(--main-bg); 
+            color: var(--main-text); 
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); 
+        }
+        .top-three-card {
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            background-color: var(--main-bg); 
+            color: var(--main-text); 
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .top-three-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+        }
+        
+        /* تنسيق الصفوف المتناوبة في الجدول */
+        .leaderboard-table tr:nth-child(even) {
+            background-color: #f9fafb; 
+        }
+        html.dark .leaderboard-table tr:nth-child(even) {
+            background-color: #374151; 
+        }
+        
+        /* تنسيق صف المستخدم الحالي */
+        .primary-row { 
+            background-color: var(--accent-blue) !important; 
+            color: var(--main-bg); 
+            font-weight: 700; /* Bolder text */
+        }
+        .primary-row span, .primary-row img {
+            color: inherit !important;
+        }
+        html.dark .primary-row { 
+            background-color: var(--accent-blue) !important; 
+            color: #1A202C !important; /* لون داكن للقراءة */
+        }
+        html.dark .primary-row span {
+            color: #1A202C !important;
+        }
+    </style>
+</head>
+<body class="text-main min-h-screen flex flex-col">
+
+    <nav class="nav-bg shadow-lg sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                
+                <div class="flex-shrink-0 flex items-center">
+                    <img src="/images/club-logo.png" alt="شعار النادي الهندسي" class="h-10 w-auto ml-3 icon-shadow"> 
+                    <span class="text-2xl font-bold text-[var(--primary-dark-blue)] dark:text-white">ENG CLUB</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-4 space-x-reverse text-sm font-medium">
+                    <a href="/" class="nav-link px-3 py-2">الرئيسية</a>
+                    <a href="/news" class="nav-link px-3 py-2">أخبار النادي</a>
+                    <a href="/about" class="nav-link px-3 py-2">فريقنا (من نحن)</a>
+                    <a href="/events" class="nav-link px-3 py-2">الدورات والفعاليات</a> 
+                    <a href="/leaderboard" class="nav-link px-3 py-2 border-b-2 font-bold" style="border-bottom-color: var(--accent-blue);">لوحة الصدارة</a>
+                    <a href="/contact" class="nav-link px-3 py-2">تواصل معنا</a>
+
+                    <button id="theme-toggle-desktop" class="p-2 rounded-full hover:bg-accent-blue/20 transition duration-300" style="color: var(--main-text);">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+
+                    <% if (isLoggedIn) { %>
+                        <a href="/profile" class="px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 shadow-lg" style="background-color: var(--accent-blue); color: var(--primary-dark-blue);">الملف الشخصي</a>
+                    <% } else { %>
+                        <a href="/register" class="px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 shadow-lg" style="background-color: var(--accent-blue); color: var(--primary-dark-blue);">انضم إلينا</a>
+                        <a href="/login" class="nav-link px-3 py-2">تسجيل الدخول</a>
+                    <% } %>
+                </div>
+                
+                <div class="flex items-center md:hidden">
+                    <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-accent-blue/20 transition duration-300 ml-2" style="color: var(--main-text);">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+                    <button id="mobile-menu-button" type="button" class="p-2 rounded-md hover:bg-accent-blue/20 focus:outline-none focus:ring-2" style="color: var(--main-text); focus-ring-color: var(--accent-blue);">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+
+            </div> </div> 
+            
+            <div class="hidden md:hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-right" style="background-color: #0A2F6B;">
+                    <a href="/" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
+                    <a href="/news" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">أخبار النادي</a>
+                    <a href="/about" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">فريقنا (من نحن)</a>
+                    <a href="/events" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الدورات والفعاليات</a> 
+                    <a href="/leaderboard" class="text-white block px-3 py-2 rounded-md text-base font-medium" style="background-color: var(--accent-blue);">لوحة الصدارة</a>
+                    <a href="/contact" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تواصل معنا</a>
+
+                    <hr class="border-t border-white/20 my-2">
+                    
+                    <% if (isLoggedIn) { %>
+                        <a href="/profile" class="bg-white text-[var(--primary-dark-blue)] block px-3 py-2 rounded-md text-base font-medium mt-2">الملف الشخصي</a>
+                    <% } else { %>
+                        <a href="/register" class="bg-white text-[var(--primary-dark-blue)] block px-3 py-2 rounded-md text-base font-medium mt-2">انضم إلينا</a>
+                        <a href="/login" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تسجيل الدخول</a>
+                    <% } %>
+                </div>
+            </div>
+    </nav>
+    
+    <main class="py-12 px-4 flex-grow">
+        <div class="max-w-5xl mx-auto">
+            <header class="text-center mb-12">
+                <h1 class="text-5xl font-extrabold mb-3">لوحة صدارة النقاط 🏆</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400">تصنيف الأعضاء النشطين حسب النقاط المكتسبة من المشاركة في الفعاليات واللجان.</p>
+                <% if (isLoggedIn) { %>
+                    <div class="bg-card inline-block p-3 rounded-xl shadow-lg mt-4 border border-gray-100 dark:border-gray-700">
+                        <span class="font-bold" style="color: var(--primary-dark-blue);">نقاطك الحالية: <%= currentUserPoints %> نقطة</span>
+                    </div>
+                <% } %>
+            </header>
+
+            <section class="flex justify-center items-end mb-12 gap-4 md:gap-8 text-center">
+                
+                <% if (!leaderboard || leaderboard.length < 3) { %>
+                    <div class="col-span-full text-center p-8 card rounded-xl shadow-lg text-gray-600 dark:text-gray-400 w-full">
+                        <p class="text-lg">سيتم عرض المراكز الثلاثة الأولى عند اكتمال البيانات (ثلاثة أعضاء أو أكثر).</p>
+                    </div>
+                <% } else { %>
+
+                    <div class="top-three-card rank-2 order-2 md:order-1 border-t-4 border-gray-400 w-1/3 h-36">
+                        <i class="fas fa-medal medal-icon"></i>
+                        <p class="text-4xl font-black mb-2 text-gray-600 dark:text-gray-300">#2</p>
+                        <h3 class="text-xl font-bold text-[var(--primary-dark-blue)] dark:text-white"><%= leaderboard[1].name %></h3>
+                        <p class="text-2xl font-extrabold text-gray-500 dark:text-gray-400 mt-2"><%= leaderboard[1].points %> نقطة</p>
+                    </div>
+
+                    <div class="top-three-card rank-1 order-1 md:order-2 border-t-8 border-yellow-500 transform scale-105 shadow-xl dark:shadow-yellow-900/50 w-1/3 h-48">
+                        <i class="fas fa-medal medal-icon"></i>
+                        <p class="text-5xl font-black mb-2 text-yellow-500">#1</p>
+                        <h3 class="text-2xl font-bold text-[var(--primary-dark-blue)] dark:text-white"><%= leaderboard[0].name %></h3>
+                        <p class="text-3xl font-extrabold text-[var(--accent-blue)] mt-2"><%= leaderboard[0].points %> نقطة</p>
+                    </div>
+                    
+                    <div class="top-three-card rank-3 order-3 md:order-3 border-t-4 border-yellow-800 w-1/3 h-28">
+                        <i class="fas fa-medal medal-icon"></i>
+                        <p class="text-4xl font-black mb-2 text-yellow-800 dark:text-yellow-600">#3</p>
+                        <h3 class="text-xl font-bold text-[var(--primary-dark-blue)] dark:text-white"><%= leaderboard[2].name %></h3>
+                        <p class="text-2xl font-extrabold text-gray-500 dark:text-gray-400 mt-2"><%= leaderboard[2].points %> نقطة</p>
+                    </div>
+                <% } %>
+            </section>
+
+
+            <section>
+                <h2 class="text-3xl font-bold mb-6 text-[var(--main-text)] border-b pb-2 border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-list-ol ml-2 text-gray-500"></i> الترتيب الكامل
+                </h2>
+
+                <div class="card overflow-x-auto">
+                    <table class="w-full text-right leaderboard-table">
+                        <thead>
+                            <tr class="bg-gray-100 dark:bg-gray-600/50 text-[var(--primary-dark-blue)] dark:text-white uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 text-right">الترتيب</th>
+                                <th class="py-3 px-6 text-right">اسم العضو</th>
+                                <th class="py-3 px-6 text-center">النقاط</th>
+                                <th class="py-3 px-6 text-center hidden sm:table-cell">الكلية/القسم</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-[var(--main-text)] dark:text-gray-300 text-sm font-light">
+                            <% 
+                                const userRank = leaderboard.findIndex(m => m.isCurrentUser) + 1;
+                                const userRowDisplayed = userRank > 0 && userRank >= 4; // Check if user is ranked 4th or lower
+
+                                if (leaderboard && leaderboard.length > 0) { 
+                                    leaderboard.forEach((member, index) => { 
+                                        const isCurrentUserRow = member.isCurrentUser;
+                                        const isTopThree = index < 3;
+
+                                        // عرض الصفوف من 4 وما فوق، وإذا كان المستخدم الحالي ضمنها
+                                        if (!isTopThree || (isCurrentUserRow && isTopThree)) { 
+                            %>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 <%= isCurrentUserRow ? 'primary-row' : '' %>">
+                                        <td class="py-3 px-6 font-bold text-right"><%= index + 1 %></td>
+                                        <td class="py-3 px-6 text-right">
+                                            <div class="flex items-center space-x-3 space-x-reverse">
+                                                <img class="w-8 h-8 rounded-full object-cover" src="<%= member.avatarUrl || '/img/default-avatar.png' %>" alt="<%= member.name %>">
+                                                <span><%= member.name %> <%= isCurrentUserRow ? '(أنت)' : '' %></span>
+                                            </div>
+                                        </td>
+                                        <td class="py-3 px-6 text-center font-extrabold <%= isCurrentUserRow ? 'text-white dark:text-black' : 'text-[var(--accent-blue)]' %>"><%= member.points %></td>
+                                        <td class="py-3 px-6 text-center hidden sm:table-cell"><%= member.department || 'هندسة' %></td>
+                                    </tr>
+                            <% 
+                                        } 
+                                    })
+                                } else { 
+                            %>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700">
+                                        <td colspan="4" class="py-6 px-6 text-center text-gray-500 dark:text-gray-400">
+                                            لا توجد بيانات حالياً.
+                                        </td>
+                                    </tr>
+                            <% } %>
+                            
+                            <% if (isLoggedIn && userRank > 3) { %>
+                                <tr class="primary-row font-bold">
+                                    <td class="px-6 py-4 whitespace-nowrap text-right font-medium"><%= userRank %>*</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                                        <div class="flex items-center space-x-3 space-x-reverse">
+                                            <img class="w-8 h-8 rounded-full object-cover" src="<%= currentUserAvatar || '/img/default-avatar.png' %>" alt="أنت">
+                                            <span>أنت ( <%= currentUserName %> )</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center font-extrabold"><%= currentUserPoints %></td> 
+                                    <td class="px-6 py-4 whitespace-nowrap text-center hidden sm:table-cell"><%= currentUserDept %></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <% if (!isLoggedIn) { %>
+                <div class="text-center mt-12 p-6 card rounded-xl shadow-lg border border-accent-blue/50">
+                    <h3 class="text-2xl font-bold mb-3" style="color: var(--accent-blue);">هل تريد الانضمام إلى المنافسة؟</h3>
+                    <p class="mb-4 text-gray-600 dark:text-gray-400">كل مشاركة في فعالياتنا تكسبك نقاطاً تصعد بك إلى الصدارة. سجل حسابك الآن لبدء جمع النقاط.</p>
+                    <a href="/register" class="inline-block text-white px-8 py-3 rounded-full font-bold hover:opacity-80 transition duration-300 shadow-md" style="background-color: var(--primary-dark-blue);">
+                        سجل حسابك 📝
+                    </a>
+                </div>
+            <% } %>
+        </div>
+    </main>
+    
+    <footer class="bg-[var(--primary-dark-blue)] py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-white text-xs">جميع الحقوق محفوظة للنادي الهندسي.</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        // 1. تطبيق النمط المحفوظ عند تحميل الصفحة
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme);
+        } else {
+             htmlElement.classList.add('light'); 
+        }
+
+        // وظيفة تبديل الوضع
+        const toggleTheme = () => {
+            const isDark = htmlElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+
+            htmlElement.classList.remove(isDark ? 'dark' : 'light');
+            htmlElement.classList.add(newTheme);
+            
+            // 2. حفظ النمط المختار
+            localStorage.setItem('theme', newTheme);
+        };
+
+        if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+        if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        // تفعيل قائمة الجوال
+        const button = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if(button && menu) {
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

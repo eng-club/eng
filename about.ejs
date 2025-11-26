@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النادي الهندسي | فريقنا (من نحن)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+
+    <style>
+        /* التنسيقات الموحدة (CSS Variables) */
+        :root {
+            --primary-dark-blue: #0A2F6B; 
+            --accent-blue: #06B6D4; /* لون التمييز الفاتح */    
+            --light-bg: #F0F2F5;        
+            --main-bg: #FFFFFF;         
+            --main-text: #333333;       
+            --soft-text: #6B7280; /* لون للنصوص الثانوية */
+            /* ألوان مخصصة للهيكل التنظيمي */
+            --level-1-bg: var(--primary-dark-blue);
+            --level-1-text: #FFFFFF;
+            --level-2-bg: #EAEFF6;
+            --level-2-text: var(--primary-dark-blue);
+            --committee-bg: #F8F9FA;
+            --committee-text: var(--main-text);
+        }
+        html.dark {
+            --light-bg: #1A202C;        
+            --main-bg: #2D3748;         
+            --main-text: #E2E8F0;       
+            --soft-text: #9CA3AF; /* لون للنصوص الثانوية في الوضع الداكن */
+            --primary-dark-blue: #90CDF4; 
+            --accent-blue: #FFFFFF; 
+            /* ألوان مخصصة للهيكل التنظيمي - الوضع الداكن */
+            --level-1-bg: var(--primary-dark-blue);
+            --level-1-text: #1A202C;
+            --level-2-bg: #374151;
+            --level-2-text: var(--primary-dark-blue);
+            --committee-bg: #1F2937;
+            --committee-text: var(--main-text);
+        }
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background-color: var(--light-bg); 
+            color: var(--main-text); 
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* تنسيق العنوان الرئيسي لأقسام الصفحة (موحد) */
+        .section-title {
+            @apply text-4xl font-extrabold text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)] border-b-4 border-[var(--accent-blue)] inline-block pb-1;
+        }
+
+        /* تنسيق بطاقة العضو (Leader Card) */
+        .leader-card {
+            @apply bg-card rounded-xl shadow-lg p-6 text-center transition duration-300 hover:shadow-xl hover:scale-[1.02] border-t-4 border-[var(--accent-blue)];
+        }
+        
+        .nav-bg { 
+            background-color: var(--main-bg); 
+            color: var(--main-text); 
+        }
+        html.dark .nav-bg { 
+            background-color: #0A2F6B; 
+            color: #FFFFFF; 
+        }
+        .nav-link { color: var(--main-text); }
+        .nav-link:hover { color: var(--accent-blue); }
+
+        html.dark .nav-link { color: #FFFFFF; }
+        html.dark .nav-link:hover { color: var(--accent-blue); }
+
+        h1, h2, h3 { color: var(--primary-dark-blue); }
+        .bg-card { background-color: var(--main-bg); color: var(--main-text); }
+        .icon-shadow { filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
+        
+        /* تنسيقات الهيكل التنظيمي */
+        .org-card {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .org-level-1 { 
+            background-color: var(--level-1-bg); 
+            color: var(--level-1-text);
+            border-bottom: 4px solid var(--accent-blue);
+        }
+        .org-level-2 {
+            background-color: var(--level-2-bg);
+            color: var(--level-2-text);
+            font-weight: 700;
+        }
+        .org-committee {
+            background-color: var(--committee-bg);
+            color: var(--committee-text);
+        }
+        .org-line {
+            height: 2px;
+            background-color: var(--primary-dark-blue);
+            opacity: 0.5;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body class="text-main">
+    
+    <%- include('partials/header', { isLoggedIn: isLoggedIn, isAdmin: isAdmin }) %>
+
+    <nav class="nav-bg shadow-lg sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <img src="images/club-logo.png" alt="شعار النادي الهندسي" class="h-10 w-auto ml-3 icon-shadow"> 
+                    <span class="text-2xl font-bold">ENG CLUB</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-4 space-x-reverse text-sm font-medium">
+                    <a href="/" class="nav-link px-3 py-2">الرئيسية</a>
+                    <a href="/news" class="nav-link px-3 py-2">أخبار النادي</a>
+                    <a href="/about" class="nav-link px-3 py-2 border-b-2 nav-active-tab" style="border-bottom-color: var(--accent-blue);">فريقنا (من نحن)</a>
+                    <a href="/events" class="nav-link px-3 py-2">الدورات والفعاليات</a> 
+                    <a href="/leaderboard" class="nav-link px-3 py-2">لوحة الصدارة</a>
+                    <a href="/contact" class="nav-link px-3 py-2">تواصل معنا</a>
+
+                    <button id="theme-toggle-desktop" class="p-2 rounded-full hover:bg-accent-blue/20 transition duration-300" style="color: var(--main-text);">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+                    <a href="/register" class="text-primary-dark-blue px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 shadow-lg" style="background-color: var(--accent-blue); color: var(--primary-dark-blue);">انضم إلينا</a>
+                    <a href="/login" class="nav-link px-3 py-2">تسجيل الدخول</a>
+                </div>
+
+                <div class="flex items-center md:hidden">
+                    <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-accent-blue/20 transition duration-300 ml-2" style="color: var(--main-text);">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+                    <button id="mobile-menu-button" type="button" class="p-2 rounded-md hover:bg-accent-blue/20 focus:outline-none focus:ring-2" style="color: var(--main-text); focus-ring-color: var(--accent-blue);">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+            
+        <div class="hidden md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-right" style="background-color: #0A2F6B;">
+                <a href="/" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
+                <a href="/news" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">أخبار النادي</a>
+                <a href="/about" class="text-white block px-3 py-2 rounded-md text-base font-medium" style="background-color: var(--accent-blue);">فريقنا (من نحن)</a>
+                <a href="/events" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">الدورات والفعاليات</a> 
+                <a href="/leaderboard" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">لوحة الصدارة</a>
+                <a href="/contact" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تواصل معنا</a>
+
+                <hr class="border-t border-white/20 my-2">
+                
+                <a href="/register" class="bg-white text-primary-dark-blue block px-3 py-2 rounded-md text-base font-medium mt-2">انضم إلينا</a>
+                <a href="/login" class="text-white hover:bg-accent-blue/50 block px-3 py-2 rounded-md text-base font-medium">تسجيل الدخول</a>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <header class="text-center mb-12">
+                <h1 class="text-5xl font-extrabold mb-3">فريق النادي الهندسي</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400">طلاب من أجل طلاب. نكرس جهودنا لبناء خبرات رائدة.</p>
+            </header>
+
+
+            <section class="mb-12 p-8 bg-card rounded-xl shadow-2xl border-l-8" style="border-left-color: var(--accent-blue);">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-right">
+                    <div>
+                        <h2 class="text-3xl font-extrabold mb-3 text-primary-dark-blue">رسالتنا</h2>
+                        <p class="text-main leading-relaxed">توفير بيئة داعمة ومحفزة لطلاب كلية الهندسة، لتمكينهم من تطوير مهاراتهم الفنية والقيادية، وتعزيز ارتباطهم بالمجتمع وسوق العمل، ليصبحوا مهندسين قادة ومبدعين.</p>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-extrabold mb-3 text-primary-dark-blue">رؤيتنا</h2>
+                        <p class="text-main leading-relaxed">أن نكون النادي الطلابي الهندسي الرائد على مستوى الجامعة، والمحرك الأساسي للابتكار والتميز في الأنشطة اللامنهجية، والمساهم الأول في تأهيل الجيل القادم من المهندسين.</p>
+                    </div>
+                </div>
+            </section>
+            
+           
+            
+            <section class="text-center py-8">
+                <h2 class="section-title mb-10">الهيكل التنظيمي للنادي </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">الفصل الدراسي الأول لعام 1447هـ</p>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex flex-col md:flex-row justify-center items-center mb-8">
+                        <div class="org-card org-level-1 text-sm font-semibold mb-4 md:mb-0 md:ml-4 flex-shrink-0">
+                            مشرف النادي<br>
+                            <span class="text-lg font-bold">د. طارق نبيل</span>
+                        </div>
+                        <div class="text-xl font-extrabold text-primary-dark-blue hidden md:block">|</div>
+                        <div class="org-card org-level-1 text-sm font-semibold mt-4 md:mt-0 md:mr-4 flex-shrink-0">
+                            مشرفة النادي<br>
+                            <span class="text-lg font-bold">أ. عبير التويجري</span>
+                        </div>
+                    </div>
+                    <div class="org-line max-w-xs mx-auto mb-8"></div>
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                            <div class="org-card org-level-2">
+                                نائبة الطالبات<br>
+                                <span class="text-lg font-bold">فرح الليفان</span>
+                            </div>
+                            <div class="org-card org-level-1">
+                                رئيس النادي<br>
+                                <span class="text-xl font-bold">مؤيد الشراري</span>
+                            </div>
+                            <div class="org-card org-level-2">
+                                نائب الطلاب<br>
+                                <span class="text-lg font-bold">تركي الشمري</span>
+                            </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title mb-8 mt-12">الشؤون التنفيذية واللجان 📊</h3>
+                
+                <div class="max-w-5xl mx-auto">
+                    <div class="flex justify-center items-center mb-8">
+                        <div class="org-card org-level-2 mx-4">
+                            رئيس الشؤون التنفيذية (طلاب)<br>
+                            <span class="text-lg font-bold">راشد الرحيمي</span>
+                        </div>
+                        <div class="org-card org-level-2 mx-4">
+                            رئيسة الشؤون التنفيذية (طالبات)<br>
+                            <span class="text-lg font-bold">دانه الشبيعان</span>
+                        </div>
+                    </div>
+                    
+                    <div class="org-line max-w-full mx-auto mb-8"></div>
+
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm font-semibold">
+                            <div class="org-card org-committee">
+                                <h4 class="font-extrabold mb-2 text-primary-dark-blue">لجنة الرياضة</h4>
+                                <p>غضا المدلج</p>
+                                <p>احمد الشريف</p>
+                            </div>
+                            <div class="org-card org-committee">
+                                <h4 class="font-extrabold mb-2 text-primary-dark-blue">لجنة الإعلام والتسويق</h4>
+                                <p>ليان الروساء</p>
+                                <p>عبد المجيد الغوازي</p>
+                            </div>
+                            <div class="org-card org-committee">
+                                <h4 class="font-extrabold mb-2 text-primary-dark-blue">لجنة الأنشطة والفعاليات</h4>
+                                <p>سارة الصالح</p>
+                                <p>عبد الله المريخي</p>
+                            </div>
+                            <div class="org-card org-committee">
+                                <h4 class="font-extrabold mb-2 text-primary-dark-blue">لجنة التنظيم والمتابعة</h4>
+                                <p>جودي الطريقي</p>
+                                <p>سعود بن سعيد</p>
+                            </div>
+                    </div>
+                </div>
+
+            </section>
+            <hr class="my-10 opacity-10">
+            <section class="text-center py-8">
+                <h2 class="section-title mb-10">مهام اللجان التنظيمية</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    
+                    <div class="bg-card p-6 rounded-xl shadow-lg border-b-4 border-primary-dark-blue hover:shadow-xl transition duration-300">
+                        <div class="text-5xl" style="color: var(--accent-blue);">⚽</div>
+                        <h3 class="text-2xl font-bold mb-3">لجنة الرياضة</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">مسؤولة عن تنظيم الفعاليات والدوريات الرياضية لطلاب وطالبات الكلية، لتعزيز الروح الجماعية والنشاط البدني.</p>
+                        <a href="/events" class="font-semibold hover:underline" style="color: var(--accent-blue);">انظر فعالياتنا</a>
+                    </div>
+
+                    <div class="bg-card p-6 rounded-xl shadow-lg border-b-4 border-primary-dark-blue hover:shadow-xl transition duration-300">
+                        <div class="text-5xl" style="color: var(--accent-blue);">📱</div>
+                        <h3 class="text-2xl font-bold mb-3">لجنة الإعلام والتسويق</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">تتولى تغطية جميع أنشطة النادي إعلامياً، وإدارة حسابات التواصل الاجتماعي، ونشر محتوى جذاب عن النادي.</p>
+                        <a href="/news" class="font-semibold hover:underline" style="color: var(--accent-blue);">شاهد آخر الأخبار</a>
+                    </div>
+
+                    <div class="bg-card p-6 rounded-xl shadow-lg border-b-4 border-primary-dark-blue hover:shadow-xl transition duration-300">
+                        <div class="text-5xl" style="color: var(--accent-blue);">🗓️</div>
+                        <h3 class="text-2xl font-bold mb-3">لجنة الأنشطة والفعاليات</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">مسؤولة عن تخطيط وتنفيذ جميع الأنشطة والفعاليات اللاصفية التي تثري تجربة الطالب الهندسية.</p>
+                        <a href="/events" class="font-semibold hover:underline" style="color: var(--accent-blue);">تصفح الدورات</a>
+                    </div>
+
+                    <div class="bg-card p-6 rounded-xl shadow-lg border-b-4 border-primary-dark-blue hover:shadow-xl transition duration-300">
+                        <div class="text-5xl" style="color: var(--accent-blue);">📝</div>
+                        <h3 class="text-2xl font-bold mb-3">لجنة التنظيم والمتابعة</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">تضمن سلاسة سير العمليات الداخلية للنادي، وتنظم حضور وغياب الأعضاء، وتتابع تنفيذ الخطط الموضوعة.</p>
+                        <a href="/about" class="font-semibold hover:underline" style="color: var(--accent-blue);">تعرف على فريقنا</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="contact" class="py-8 mt-16 border-t-2" style="background-color: #0A2F6B; border-top-color: var(--accent-blue);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-white text-md font-semibold mb-2">النادي الهندسي | ENGINEERING CLUB</p>
+            <p class="text-xs text-gray-500 mt-4">جميع الحقوق محفوظة لكلية الهندسة، جامعة المجمعة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // كود تبديل الثيم و قائمة الجوال (لم يتغير)
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        // 1. تطبيق النمط المحفوظ عند تحميل الصفحة
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme);
+            const toggleButtons = [themeToggleDesktop, themeToggleMobile];
+            toggleButtons.forEach(button => {
+                if (button) {
+                    button.style.color = savedTheme === 'dark' ? '#FFFFFF' : '#333333';
+                }
+            });
+        } else {
+            // تعيين نمط افتراضي
+            htmlElement.classList.add('light'); 
+        }
+
+        const toggleTheme = () => {
+            if (htmlElement.classList.contains('light')) {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+            }
+            
+            // 2. حفظ النمط المختار ليعمل في جميع الصفحات
+            const newTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            
+            // تحديث لون زر النمط مباشرة
+            const newColor = newTheme === 'dark' ? '#FFFFFF' : '#333333';
+            const toggleButtons = [themeToggleDesktop, themeToggleMobile];
+            toggleButtons.forEach(button => {
+                if (button) {
+                    button.style.color = newColor;
+                }
+            });
+        };
+
+        if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+        if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        const button = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if(button && menu) {
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

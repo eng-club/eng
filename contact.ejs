@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النادي الهندسي | تواصل معنا</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+
+    <style>
+        /* التنسيقات الموحدة (CSS Variables) */
+        :root {
+            --primary-dark-blue: #0A2F6B; 
+            --accent-blue: #06B6D4; /* لون التمييز الفاتح (سماوي) */    
+            --light-bg: #F0F2F5;        
+            --main-bg: #FFFFFF;         
+            --main-text: #333333;       
+            --soft-text: #6B7280; /* لون للنصوص الثانوية */
+        }
+        html.dark {
+            --light-bg: #1A202C;        
+            --main-bg: #2D3748;         
+            --main-text: #E2E8F0;       
+            --soft-text: #9CA3AF;
+            --primary-dark-blue: #90CDF4; 
+            --accent-blue: #FFFFFF; /* لون التمييز الأبيض في الوضع الداكن */    
+        }
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background-color: var(--light-bg); 
+            color: var(--main-text); 
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* 🌟 تنسيق العنوان الرئيسي لأقسام الصفحة (موحد) */
+        .section-title {
+            @apply text-4xl font-extrabold text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)] border-b-4 border-[var(--accent-blue)] inline-block pb-1 mb-6;
+        }
+
+        .bg-card { background-color: var(--main-bg); color: var(--main-text); }
+        .icon-shadow { filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
+
+        /* تنسيقات عناصر الإدخال لتدعم النمط الداكن */
+        .bg-light-bg {
+            background-color: var(--light-bg);
+            color: var(--main-text);
+        }
+        html.dark .bg-light-bg {
+            border-color: #4A5568; /* لون حدود أوضح في الداكن */
+        }
+        .focus\:ring-accent-blue:focus {
+            --tw-ring-color: var(--accent-blue) !important;
+        }
+        .focus\:border-accent-blue:focus {
+            border-color: var(--accent-blue) !important;
+        }
+    </style>
+</head>
+<body class="text-main min-h-screen flex flex-col">
+    
+    <%- include('partials/header', { isLoggedIn: isLoggedIn, isAdmin: isAdmin, currentPage: 'contact' }) %>
+
+    <main class="flex-grow py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <header class="text-center mb-12">
+                <h1 class="text-5xl font-extrabold mb-3">تواصل معنا</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400">نحن هنا للإجابة على استفساراتك وتلقي اقتراحاتك.</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <div class="lg:col-span-1 space-y-8">
+                    
+                    <div class="bg-card p-6 rounded-xl shadow-lg border-r-4 border-primary-dark-blue">
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--accent-blue);">بيانات التواصل</h3>
+                        <ul class="space-y-3 text-sm text-main text-right">
+                            <li class="flex items-start space-x-3 space-x-reverse">
+                                <span class="text-primary-dark-blue mt-1">📞</span>
+                                <div>
+                                    <span class="font-bold block">رقم المسؤول (افتراضي):</span>
+                                    <span>+966 50 XXXX XXX</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start space-x-3 space-x-reverse">
+                                <span class="text-primary-dark-blue mt-1">📧</span>
+                                <div>
+                                    <span class="font-bold block">البريد الإلكتروني:</span>
+                                    <span>eng.club@mu.edu.sa</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start space-x-3 space-x-reverse">
+                                <span class="text-primary-dark-blue mt-1">📍</span>
+                                <div>
+                                    <span class="font-bold block">الموقع:</span>
+                                    <span>جامعة المجمعة - كلية الهندسة - مكتب الأنشطة الطلابية</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="mt-6 border-t pt-4 border-gray-200 dark:border-gray-700">
+                             <a href="https://twitter.com/ieng_club" target="_blank" class="flex items-center space-x-2 space-x-reverse hover:text-blue-600 font-semibold transition" style="color: var(--accent-blue);">
+                                 <span class="text-xl">X</span>
+                                 <span>تابعنا على تويتر/إكس</span>
+                             </a>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-card p-6 rounded-xl shadow-lg border-r-4" style="border-right-color: var(--accent-blue);">
+                        <h3 class="text-2xl font-bold mb-4 text-primary-dark-blue">ساعات العمل</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">لجنة النادي متوفرة في الأوقات التالية لاستقبال الاستفسارات الشخصية:</p>
+                        <ul class="space-y-2 text-sm font-medium text-right">
+                            <li class="flex justify-between border-b pb-1 border-gray-200 dark:border-gray-700"><span>الأحد - الأربعاء:</span> <span style="color: var(--accent-blue);">9:00 ص - 1:00 م</span></li>
+                            <li class="flex justify-between border-b pb-1 border-gray-200 dark:border-gray-700"><span>الخميس:</span> <span style="color: var(--accent-blue);">9:00 ص - 11:00 ص</span></li>
+                            <li class="flex justify-between"><span>الجمعة - السبت:</span> <span class="text-red-500">إجازة</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-card p-8 rounded-xl shadow-2xl border-t-8 border-primary-dark-blue/50">
+                    <h2 class="text-3xl font-bold mb-6 text-primary-dark-blue">أرسل رسالتك</h2>
+                    <form action="#" method="POST" class="space-y-6 text-right">
+                        
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-main mb-1">الاسم الكامل</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-accent-blue focus:border-accent-blue bg-light-bg" placeholder="اسمك">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-main mb-1">البريد الإلكتروني</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-accent-blue focus:border-accent-blue bg-light-bg" placeholder="example@mu.edu.sa">
+                        </div>
+
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-main mb-1">الموضوع</label>
+                            <input type="text" id="subject" name="subject" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-accent-blue focus:border-accent-blue bg-light-bg" placeholder="مثال: استفسار حول دورة BIM">
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-main mb-1">الرسالة</label>
+                            <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-accent-blue focus:border-accent-blue bg-light-bg" placeholder="اكتب رسالتك هنا"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full text-white py-3 rounded-full text-lg font-semibold transition duration-300 shadow-lg" style="background-color: var(--accent-blue); hover-opacity: 0.9;">
+                            إرسال الرسالة
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <%- include('partials/footer') %>
+
+    <script>
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        // 1. تطبيق النمط المحفوظ عند تحميل الصفحة (تثبيت النمط بين الصفحات)
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(savedTheme);
+            
+             const toggleButtons = [themeToggleDesktop, themeToggleMobile];
+             toggleButtons.forEach(button => {
+                 if (button) {
+                     // تحديد لون الأيقونة ليتناسب مع النمط الجديد
+                     // ملاحظة: تم تعديل هذا الجزء في ملف header.ejs ليصبح CSS خالصاً
+                 }
+             });
+        } else {
+             htmlElement.classList.add('light'); 
+        }
+
+        const toggleTheme = () => {
+            if (htmlElement.classList.contains('light')) {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+            }
+            
+            // 2. حفظ النمط المختار ليعمل في جميع الصفحات
+            const newTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+        };
+
+        if(themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+        if(themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        const button = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if(button && menu) {
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

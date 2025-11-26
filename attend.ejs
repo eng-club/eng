@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الحضور والتقييم | <%= event.name %></title> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="/styles.css"> 
+    
+    <style>
+        /* تنسيقات خاصة بالتقييم (النجوم) */
+        .rating-star {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .rating-star:hover, .rating-star.selected {
+            color: #FFC107; /* لون النجمة المضيئة */
+        }
+        .rating-container {
+            direction: ltr; /* لعرض النجوم من اليسار لليمين */
+            display: inline-block;
+        }
+
+        /* 🌟 جديد: تنسيق العنوان الرئيسي لأقسام الصفحة (موحد) */
+        .section-title {
+            @apply text-3xl font-extrabold text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)] border-b-4 border-[var(--accent-blue)] inline-block pb-1 mb-6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="animated-circles-container"></div>
+
+    <header class="bg-white dark:bg-gray-800 shadow-lg fixed top-0 w-full z-20">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/" class="flex items-center space-x-3 space-x-reverse">
+                    <span class="text-2xl font-extrabold text-[var(--primary-dark-blue)] dark:text-[var(--accent-blue)]">
+                        النادي الهندسي
+                    </span>
+                </a>
+
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <button id="theme-toggle-desktop" class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i class="fas fa-sun dark:hidden"></i>
+                        <i class="fas fa-moon hidden dark:inline"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 mt-16">
+        <header class="text-center mb-10">
+            <h1 class="section-title">
+                تسجيل الحضور والتقييم
+            </h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400">
+                يرجى التأكد من تسجيل حضورك لفعالية **<%= event.name %>** قبل التقييم.
+            </p>
+        </header>
+
+        <div class="card p-8 md:p-10 mx-auto max-w-3xl shadow-2xl">
+            
+            <h2 class="text-2xl font-bold text-[var(--primary-dark-blue)] dark:text-gray-100 mb-4 text-center border-b pb-2 border-gray-200 dark:border-gray-700">
+                 <%= event.name %>
+            </h2>
+            
+            <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">
+                <i class="fas fa-calendar-alt ml-1"></i> <%= event.date %> | 
+                <i class="fas fa-clock ml-1"></i> <%= event.time %> | 
+                <i class="fas fa-coins ml-1"></i> <%= event.points %> نقاط
+            </p>
+
+            <div id="message-container" class="hidden text-center p-3 mb-4 rounded-lg font-semibold transition-all duration-300"></div>
+
+            <form id="attendance-form">
+                <input type="hidden" name="eventId" value="<%= event.id %>">
+                <input type="hidden" name="userId" value="<%= user.id %>">
+                
+                <div class="mb-8 text-center">
+                    <label class="block text-xl font-semibold mb-3 text-[var(--primary-dark-blue)] dark:text-gray-100">
+                        ما هو تقييمك للفعالية؟
+                    </label>
+                    <div id="rating-container" class="rating-container">
+                        <% for (let i = 5; i >= 1; i--) { %>
+                            <i class="fas fa-star rating-star text-4xl text-gray-300 dark:text-gray-500 mx-1" data-value="<%= i %>"></i>
+                        <% } %>
+                    </div>
+                    <input type="hidden" name="rating" id="rating-value" value="0">
+                </div>
+
+                <div class="mb-8">
+                    <label for="comment" class="block text-lg font-semibold mb-2 text-[var(--primary-dark-blue)] dark:text-gray-100">
+                        ملاحظاتك واقتراحاتك (اختياري):
+                    </label>
+                    <textarea id="comment" name="comment" rows="4" class="w-full card border border-gray-300 dark:border-gray-600 p-3 rounded-lg focus:ring-[var(--accent-blue)] focus:border-[var(--accent-blue)] dark:bg-gray-700 dark:text-gray-200" placeholder="اكتب ملاحظاتك لتحسين فعالياتنا..."></textarea>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" id="submit-btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 disabled:bg-gray-400">
+                        <i class="fas fa-award ml-3"></i> سجل حضوري واحصل على النقاط
+                    </button>
+                </div>
+                
+            </form>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        // دالة لعرض رسائل الإشعار
+        function showMessage(message, isSuccess) {
+            const container = document.getElementById('message-container');
+            container.textContent = message;
+            container.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800', 'dark:bg-red-900', 'dark:text-red-100', 'dark:bg-green-900', 'dark:text-green-100');
+            
+            if (isSuccess) {
+                container.classList.add('bg-green-100', 'text-green-800', 'dark:bg-green-900', 'dark:text-green-100');
+            } else {
+                container.classList.add('bg-red-100', 'text-red-800', 'dark:bg-red-900', 'dark:text-red-100');
+            }
+        }
+
+        // كود التقييم بالنجوم
+        const ratingStars = document.querySelectorAll('.rating-star');
+        const ratingValueInput = document.getElementById('rating-value');
+
+        ratingStars.forEach(star => {
+            star.addEventListener('click', () => {
+                const value = parseInt(star.getAttribute('data-value'));
+                ratingValueInput.value = value;
+                
+                // تفعيل النجوم حتى النجمة المحددة
+                ratingStars.forEach(s => {
+                    const starValue = parseInt(s.getAttribute('data-value'));
+                    if (starValue <= value) {
+                        s.classList.add('selected');
+                    } else {
+                        s.classList.remove('selected');
+                    }
+                });
+            });
+            // تفعيل تأثير الـ hover
+            star.addEventListener('mouseover', () => {
+                const value = parseInt(star.getAttribute('data-value'));
+                ratingStars.forEach(s => {
+                    const starValue = parseInt(s.getAttribute('data-value'));
+                    if (starValue <= value) {
+                        s.style.color = '#FFC107';
+                    } else if (!s.classList.contains('selected')) {
+                        s.style.color = '';
+                    }
+                });
+            });
+
+            star.addEventListener('mouseout', () => {
+                ratingStars.forEach(s => {
+                    if (!s.classList.contains('selected')) {
+                         s.style.color = '';
+                    }
+                });
+            });
+
+        });
+
+        // كود معالجة النموذج
+        const form = document.getElementById('attendance-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-3"></i> جارٍ التسجيل...';
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // إضافة التقييم إلى البيانات
+            data.rating = ratingValueInput.value;
+
+            try {
+                const response = await fetch('/api/claim-event-points', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    showMessage(result.message, true);
+                    // تعطيل الزر ومنع الإرسال مرة أخرى
+                    submitBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    submitBtn.classList.add('bg-gray-400');
+                    submitBtn.innerHTML = '<i class="fas fa-check-double ml-3"></i> تم تسجيل حضورك بنجاح';
+                } else {
+                    // رسالة خطأ
+                    showMessage(result.message || 'حدث خطأ غير معروف.', false);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-award ml-3"></i> سجل حضوري واحصل على النقاط';
+                }
+            } catch (error) {
+                console.error(error);
+                showMessage('حدث خطأ في الاتصال بالخادم. حاول مرة أخرى.', false);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-award ml-3"></i> سجل حضوري واحصل على النقاط';
+            }
+        });
+    </script>
+
+    <script src="/animation.js"></script>
+</body>
+</html>

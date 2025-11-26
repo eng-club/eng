@@ -1,0 +1,76 @@
+<%- include('partials/header', { 
+    pageTitle: pageTitle, 
+    isLoggedIn: isLoggedIn, 
+    isAdmin: isAdmin, 
+    currentPage: currentPage 
+}) %>
+
+<main class="flex-grow py-16 px-4">
+    <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
+        
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-center mb-4" style="color: var(--primary-dark-blue);">
+            تعديل بيانات الملف الشخصي
+        </h1>
+        <p class="text-center text-gray-600 dark:text-gray-300 mb-8">
+            يمكنك تحديث اسمك، بريدك الإلكتروني، أو رقم هاتفك.
+        </p>
+
+        <% if (error) { %>
+            <div class="bg-red-100 border-r-4 border-red-500 text-red-700 p-4 mb-4" role="alert" dir="rtl">
+                <p class="font-bold">خطأ!</p>
+                <p><%= error %></p>
+            </div>
+        <% } %>
+        <% if (success) { %>
+            <div class="bg-green-100 border-r-4 border-green-500 text-green-700 p-4 mb-4" role="alert" dir="rtl">
+                <p class="font-bold">نجاح!</p>
+                <p><%= success %></p>
+            </div>
+        <% } %>
+        <div class="bg-card p-8 rounded-xl shadow-2xl">
+            <form action="/profile/edit" method="POST" class="space-y-6">
+                
+                <div>
+                    <label for="name" class="block text-sm font-medium mb-1">الاسم الكامل</label>
+                    <input type="text" id="name" name="name" required value="<%= user.name %>"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-accent-blue focus:border-accent-blue" 
+                           style="background-color: var(--light-bg); color: var(--main-text); border-color: var(--light-bg);">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium mb-1">البريد الإلكتروني</label>
+                    <input type="email" id="email" name="email" required value="<%= user.email %>"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-accent-blue focus:border-accent-blue" 
+                           style="background-color: var(--light-bg); color: var(--main-text); border-color: var(--light-bg);">
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-sm font-medium mb-1">رقم الهاتف</label>
+                    <input type="text" id="phone" name="phone" value="<%= user.phone %>"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-accent-blue focus:border-accent-blue" 
+                           style="background-color: var(--light-bg); color: var(--main-text); border-color: var(--light-bg);">
+                </div>
+
+                <div class="flex justify-between border-t pt-4" style="border-top-color: var(--light-bg);">
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">الرقم الجامعي:</p>
+                    <p class="text-sm font-semibold"><%= user.studentId %> (غير قابل للتعديل)</p>
+                </div>
+                
+                <button type="submit" 
+                        class="w-full text-white py-3 rounded-full text-lg font-semibold hover:opacity-90 transition duration-300 shadow-lg" 
+                        style="background-color: var(--primary-dark-blue);">
+                    حفظ التعديلات <i class="fas fa-save mr-2"></i>
+                </button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <a href="/profile" class="text-sm font-medium hover:underline" style="color: var(--accent-blue);">
+                    إلغاء والعودة إلى الملف الشخصي
+                </a>
+            </div>
+        </div>
+        
+    </div>
+</main>
+
+<%- include('partials/footer') %>
